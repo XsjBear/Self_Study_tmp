@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/self_study?useSSL=false&amp;allowMultiQueries=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=GMT%2B8
+    username: root
+    password: root
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    cache: false
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html
+    mode: HTML5
+    
+mybatis: 
+  type-aliases-package: com.self_study.bean
+  mapper-locations: classpath:mapper/*Mapper.xml
+  
+SendMailUtil:
+  mailUser: 2427970264@qq.com
+  mailpwd: kjofmjediafgebce 

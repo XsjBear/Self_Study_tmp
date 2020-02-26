@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+ul, ol, li {
+	list-style: none;
+}
+
+.selfMenu{
+	width:110px;
+}
+
+a {
+	text-decoration: none;
+	/* color: #FFF; */
+	font-size: 18px;
+	font-family: "楷体";
+}
+
+.on ul {
+	display: none;
+}
+
+.on {
+	/* width: 100px; */
+	background: #333;
+}
+
+a:hover {
+	color: #ff2832;
+}
+
+.topDown li:hover {
+	background: #f2f2f2;
+	color: #000;
+}
+
+.top-m {
+	margin-top:5px;
+}
+
+.top-m>li {
+	line-height: 22px;
+	padding-top: 5px;
+}
+
+/* LayUi样式 */
+
+.layui-nav li{
+	padding-left:50px;
+}
+
+.layui-nav .layui-nav-bar{
+	padding-left:50px;
+}
+
+.layui-nav a{
+	font-size:18px;
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.orc//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+     
+<mapper namespace="com.self_study.mapper.IUserInfoMapper">
+
+	<insert id="addUser" parameterType="UserInfoBean">
+		 insert into userinfo values( #{userid} , #{nickname}  , #{realname}, password(#{pwd}), #{sex}, #{birthday}, #{tel}, #{qq}, #{wechat}, #{mail}, #{school}, #{stu_num}, #{major}, #{class_num});
+	</insert>
+	
+	<select id="loginCheck" resultType="UserInfoBean" parameterType="UserInfoBean">
+		select * from userinfo where tel = #{tel} and pwd = password(#{pwd});
+	</select>
+	
+	<select id="selectByTel" resultType="UserInfoBean" parameterType="UserInfoBean">
+		select * from userinfo where tel = #{tel};
+	</select>
+   
+</mapper>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<!doctype html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>天天爱学习网站</title>
+<meta name="keywords" content="天天爱学习" />
+<!-- <meta name="description" content="天天爱学习" /> -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="Page/css/base.css" rel="stylesheet">
+<link href="Page/css/index.css" rel="stylesheet">
+<link href="Page/css/custom.css" rel="stylesheet">
+<link href="Page/css/m.css" rel="stylesheet">
+<link href="Page/layui/css/layui.css" rel="stylesheet">
+<!--[if lt IE 9]>
+<script src="js/modernizr.js" th:inline="none"></script>
+<![endif]-->
+<script type="text/javascript"  src="Page/js/page.js"></script>
+<script type="text/javascript"  src="Page/js/jquery.min.js"></script>
+<script type="text/javascript"  src="Page/js/jquery.cookie.js"></script>
+<!-- 引入layui相关文件 -->
+<script type="text/javascript"  src="Page/layui/layui.js "></script>
+<script>
+
+	window.onload = function ()
+	{
+/* 		var oH2 = document.getElementById("mnavh"); 
+ */		var oUl = document.getElementById("starlist");  
+		/* oH2.onclick = function ()
+		{
+			var style = oUl.style;
+			style.display = style.display == "block" ? "none" : "block";
+			oH2.className = style.display == "block" ? "open" : ""
+		} */
+	}
+	
+	/* 引入自定义模块 */
+	layui.config({
+		base : 'Page/js/' //你存放新模块的目录，注意，不是layui的模块目录
+	}).use('SelfInfo'); //加载入口
+	
+
+	/* 引入element模块，导航栏二级菜单需要 */
+	layui.use([ 'element', 'jquery' ], function() {
+		var element = layui.element, //导航的hover效果、二级菜单等功能，需要依赖element模块
+		$ = layui.jquery; //引用jquery模块
+
+		//监听导航点击
+		element.on('nav(demo)', function(elem) {
+			//console.log(elem)
+			layer.msg(elem.text());
+		});
+
+		$(".layui-nav-item dd").click(function() {
+			$(this).addClass("layui-this");
+		})
+
+	});
+</script>
+</head>
+
+<body>
+	
+	<ul class="layui-nav">
+		<li class="layui-nav-item"><a href="HomePage">首页</a></li>
+		<li class="layui-nav-item"><a href="StudyFriend">学习小伙伴</a>
+			<dl class="layui-nav-child">
+				<dd>
+					<a href="">我的小伙伴</a>
+				</dd>
+				<dd>
+					<a href="">寻找小伙伴</a>
+				</dd>
+			</dl></li>
+		<li class="layui-nav-item"><a href="">经验座谈会</a>
+			<dl class="layui-nav-child">
+				<dd >
+					<a href="">我的分享</a>
+				</dd>
+				<dd>
+					<a href="">优秀分享</a>
+				</dd>
+			</dl></li>
+		<li class="layui-nav-item"><a href="">答疑解惑</a></li>
+		<li class="layui-nav-item"><a href="">Flag</a></li>
+		<li class="layui-nav-item"><a href="">考试援助</a></li>
+		<li class="layui-nav-item"><a href="javascript:void(0);"
+			th:text="${session.UserInfo.nickname}"></a>
+			<dl class="layui-nav-child">
+				<dd class="layui-this">
+					<a href="SelfInfo">关于我</a>
+				</dd>
+				<dd>
+					<a href="">我的收藏</a>
+				</dd>
+				<dd >
+					<a href="">我的分享</a>
+				</dd>
+				<dd>
+					<a href="">我的讨论</a>
+				</dd>
+			</dl></li>
+		<li class="layui-nav-item"><a href="Page/login.html">退出</a></li>
+	</ul>
+	<!-- 间隔行 -->
+	<div class="line46"></div>
+<article>
+
+ 
+  
+  <div class="blank"></div>
+  
+  
+  <!-- 个人信息展示主体 -->
+   <div class="leftbox">
+   
+   </div>
+  
+  
+  
+  
+  <!-- 右侧相关信息展示栏和部分推荐栏 -->
+  <div class="rightbox">
+  
+    <div class="aboutme">
+      <h2 class="ab_title">关于我</h2>
+      <div class="avatar"><img src="Page/images/b04.jpg" /></div>
+      <div class="ab_con">
+        <p>网名：DanceSmile | 即步非烟</p>
+        <p>职业：Web前端设计师、网页设计 </p>
+        <p>籍贯：四川省―成都市</p>
+        <p>邮箱：dancesmiling@qq.com</p>
+      </div>
+    </div>
+    
+    <div class="blank"></div>
+    <!-- 搜索框 -->
+    <div class="search">
+      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+        <input name="show" value="title" type="hidden">
+        <input name="tempid" value="1" type="hidden">
+        <input name="tbname" value="news" type="hidden">
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form>
+    </div>
+    
+    <div class="paihang">
+      <h2 class="ab_title"><a href="/">点击排行</a></h2>
+      <ul>
+        <li><b><a href="/jstt/css3/2018-03-20/808.html" target="_blank">十条设计原则教你学会如何设计网页布局!...</a></b>
+          <p><i><img src="Page/images/b01.png"></i>网页常见的布局有很多种,单列布局,多列布局.其中单列布局是国外很多网站比较常用的.咱们很多站长以及门户...</p>
+        </li>
+        <li><b><a href="/" target="_blank">教你怎样用欠费手机拨打电话</a></b>
+          <p><i><img src="Page/images/b02.jpg"></i>对于刚毕业的学生来说，想学习建网站，掌握一技之长，最简单的入门...</p>
+        </li>
+        <li><b><a href="/" target="_blank">原来以为，一个人的勇敢是，删掉他的手机号码</a></b>
+          <p><i><img src="Page/images/b03.jpg"></i>先前发表过一篇文章《如果要学习web前端开发，需要学习什么？》</p>
+        </li>
+        <li><b><a href="/" target="_blank">手机的16个惊人小秘密，据说99.999%的人都不知</a></b>
+          <p><i><img src="Page/images/b04.jpg"></i>对于刚毕业的学生来说，.需要学习什么？》</p>
+        </li>
+        <li><b><a href="/" target="_blank">你面对的是生活而不是手机</a></b>
+          <p><i><img src="Page/images/b05.jpg"></i>最简单的入门无非就是学会html和css，先前发表过一篇文章...</p>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="links">
+      <h2 class="ab_title">友情链接</h2>
+      <ul>
+        <li><a href="/">杨青个人博客</a></li>
+        <li><a href="/">个人博客模板</a></li>
+        <li><a href="/">优秀个人博客</a></li>
+      </ul>
+    </div>
+    
+    <div class="weixin">
+      <h2 class="ab_title">微信关注</h2>
+      <ul>
+        <img src="Page/images/wx.jpg">
+      </ul>
+    </div>
+    
+  </div>
+  
+</article>
+
+<footer>
+  <p>Design by <a href="/">天天爱学习</a> </p>
+</footer>
+
+</body>
+
+</html>
