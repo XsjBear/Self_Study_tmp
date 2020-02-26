@@ -39,8 +39,6 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 	  var $ = layui.jquery;//引用jquery模块
 	  var layer = layui.layer; 
 	  
-	  
-	  
 	  //监听导航点击
 	  element.on('nav(demo)', function(elem){
 	    //console.log(elem)
@@ -53,7 +51,7 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 	  
 	  $(".StudyFriend_Menu").click(function(){
 		alert("1111");
-		 $.post("SF/searchSelf" , {} , function(data){
+		 $.post("SF/searchSelf" , {op:1} , function(data){
 			 alert("222");
 			 if(data == 1){
 				 //直接跳转至相关界面
