@@ -49,6 +49,19 @@ layui.use(['element' , 'jquery'], function(){
 		  $(this).addClass("layui-this");
 	  })
 	  
+	  $(".StudyFriend_Menu").click(function(){
+			 $.post("SF/searchSelf",{op:1},function(data){
+				 if(data == 1){
+					 //直接跳转至相关界面
+					 layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!")
+				 }else{
+					 //跳转至相关的信息填写界面，让用户完善相关信息
+					 layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!")
+				 }
+			 },"json");
+		  return false;
+		  });
+	  
 	});
 </script>
 
@@ -60,10 +73,10 @@ layui.use(['element' , 'jquery'], function(){
 		<li class="layui-nav-item "><a href="StudyFriend">学习小伙伴</a>
 			<dl class="layui-nav-child">
 				<dd>
-					<a href="">我的小伙伴</a>
+					<a class="StudyFriend_Menu" href="">我的小伙伴</a>
 				</dd>
 				<dd>
-					<a href="">寻找小伙伴</a>
+					<a class="StudyFriend_Menu" href="">寻找小伙伴</a>
 				</dd>
 			</dl></li>
 		<li class="layui-nav-item"><a href="">经验座谈会</a>

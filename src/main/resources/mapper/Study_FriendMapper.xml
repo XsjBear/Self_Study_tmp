@@ -6,7 +6,7 @@
 <mapper namespace="com.self_study.mapper.IStudyFriendMapper">
 
 	<select id="selectByUserId"  resultType="FriendBean" parameterType="UserInfoBean">
-		select * from friend where userid = #{userid};
+		select id,userid,targetcontent,current_state,target_description from friend,target where friend.targetid = target.targetid and target.state =1 and userid = #{userid};
 	</select>
 	
    
