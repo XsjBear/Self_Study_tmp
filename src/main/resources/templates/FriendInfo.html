@@ -40,7 +40,7 @@
 	
 
 	/* 引入element模块，导航栏二级菜单需要 */
-	layui.use([ 'element', 'jquery' ], function() {
+	layui.use([ 'element', 'jquery' , 'layer'], function() {
 		var element = layui.element, //导航的hover效果、二级菜单等功能，需要依赖element模块
 		$ = layui.jquery; //引用jquery模块
 
@@ -58,13 +58,14 @@
 			 $.post("SF/searchSelf",{op:1},function(data){
 				 if(data == 1){
 					 //直接跳转至相关界面
-					 layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!")
+					 layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!");
 				 }else{
 					 //跳转至相关的信息填写界面，让用户完善相关信息
-					 layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!")
+				    layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!");
+					window.location.href="PageLoad";
 				 }
 			 },"json");
-		  return false;
+		 	 return false;
 		  });
 
 	});
@@ -131,7 +132,7 @@
 					<label class="layui-form-label">选择目标</label>
 					<div class="layui-input-block">
 						<select name="interest" lay-filter="aihao">
-							<!-- <option th:value="${friendInfo.targetcontent}" th:text="${target.targetcontent}" selected=""></option> -->
+							<!-- <option th:value="${friendInfo.targetcontent}" th:text="${target.targetcontent}" selected=""></option>  -->
 							<!-- <option value="0">写作</option> -->
 							 <option th:each="target:${targetList}" th:value="${target.targetcontent}" th:text="${target.targetcontent}"></option>	
 						</select>
@@ -148,20 +149,13 @@
 				<div class="layui-form-item layui-form-text">
 					<label class="layui-form-label">目标描述</label>
 					<div class="layui-input-block">
-						<textarea placeholder="描述一下你对目标的期望吧!!!!!" class="layui-textarea"></textarea>
+						<textarea placeholder="描述一下你对目标的期望吧!!!!!" class="layui-textarea targetDescription"></textarea>
 					</div>
 				</div>
 				
-				<!--<div class="layui-form-item layui-form-text">
-    <label class="layui-form-label">编辑器</label>
-    <div class="layui-input-block">
-      <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_demo_editor"></textarea>
-    </div>
-  </div>-->
 				<div class="layui-form-item">
 					<div class="layui-input-block">
-						<button type="submit" class="layui-btn" lay-submit=""
-							lay-filter="demo1">立即提交</button>
+						<button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
 						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 					</div>
 				</div>

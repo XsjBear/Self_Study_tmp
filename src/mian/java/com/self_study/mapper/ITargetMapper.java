@@ -12,4 +12,12 @@ public interface ITargetMapper {
 	 */
 	public ArrayList<TargetBean> selectAll();
 	
+	
+	/**
+	 * 通过内容查询出id等信息
+	 * @param targetBean
+	 * @return
+	 */
+	public TargetBean selectIdByContent(TargetBean targetBean);
+	
 }

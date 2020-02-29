@@ -1,6 +1,7 @@
 package com.self_study.mapper;
 
 import com.self_study.bean.FriendBean;
+import com.self_study.bean.FriendInfoBean;
 import com.self_study.bean.UserInfoBean;
 
 public interface IStudyFriendMapper {
@@ -11,6 +12,14 @@ public interface IStudyFriendMapper {
 	 * @param userInfoBean	session中存储的用户信息
 	 * @return	friend表中关于此user的相关信息
 	 */
-	public FriendBean selectByUserId(UserInfoBean userInfoBean);
+	public FriendInfoBean selectByUserId(UserInfoBean userInfoBean);
+	
+	
+	/**
+	 *插入相关信息
+	 * @param firendBean
+	 * @return
+	 */
+	public int addFriendInfo(FriendBean firendBean);
 	
 }

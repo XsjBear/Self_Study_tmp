@@ -35,7 +35,7 @@ window.onload = function ()
 }
 
 /* 引入element模块，导航栏二级菜单需要 */
-layui.use(['element' , 'jquery'], function(){
+layui.use(['element' , 'jquery', 'layer'], function(){
 	  var element = layui.element,//导航的hover效果、二级菜单等功能，需要依赖element模块
 	  $ = layui.jquery; //引用jquery模块
 	  
@@ -51,15 +51,17 @@ layui.use(['element' , 'jquery'], function(){
 	  
 	  $(".StudyFriend_Menu").click(function(){
 			 $.post("SF/searchSelf",{op:1},function(data){
+				 layer.msg("有返回");
 				 if(data == 1){
 					 //直接跳转至相关界面
-					 layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!")
+					 layer.msg("您的学习小伙伴相关资料已填写完整!!!!");
 				 }else{
 					 //跳转至相关的信息填写界面，让用户完善相关信息
-					 layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!")
+				    layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!");
+					window.location.href="PageLoad";
 				 }
 			 },"json");
-		  return false;
+		   	 return false;
 		  });
 	  
 	});

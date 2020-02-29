@@ -5,9 +5,13 @@
      
 <mapper namespace="com.self_study.mapper.IStudyFriendMapper">
 
-	<select id="selectByUserId"  resultType="FriendBean" parameterType="UserInfoBean">
+	<select id="selectByUserId"  resultType="FriendInfoBean" parameterType="UserInfoBean">
 		select id,userid,targetcontent,current_state,target_description from friend,target where friend.targetid = target.targetid and target.state =1 and userid = #{userid};
 	</select>
+	
+	<insert id="addFriendInfo" parameterType="FriendBean">
+		 insert into friend values( #{id} , #{userid}  , #{targetid},  #{current_state}, #{target_description});
+	</insert>
 	
    
 </mapper>

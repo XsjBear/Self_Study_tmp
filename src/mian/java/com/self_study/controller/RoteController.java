@@ -34,19 +34,18 @@ public class RoteController {
 	 */
 	@RequestMapping("/PageLoad")
 	public String loadRequest(HttpSession session , Model model) {
-		UserInfoBean userInfo = (UserInfoBean) session.getAttribute("UserInfo");
-		FriendBean friendInfo = studyFriendService.selectByUserId(userInfo);
+//		UserInfoBean userInfo = (UserInfoBean) session.getAttribute("UserInfo");
+//		FriendBean friendInfo = studyFriendService.selectByUserId(userInfo);
 		ArrayList<TargetBean> targetList = targetService.selectAll();
-		
+//		ArrayList<FriendBean> friendList = new ArrayList<>();
 		model.addAttribute("targetList", targetList);
-		
-		if(friendInfo == null) {
-			model.addAttribute("friendInfo" , null);
-		}else {
-			System.out.println(friendInfo);
-			model.addAttribute("friendInfo" , friendInfo);
-		}
-		return "SelfInfo";
+//		if(friendInfo == null) {
+//			friendList.add(targetList.get(0));
+//		}else {
+//			friendList.add(friendInfo);
+//		}
+//		model.addAttribute("friendInfo" , friendList);
+		return "FriendInfo";
 	}
 	
 	

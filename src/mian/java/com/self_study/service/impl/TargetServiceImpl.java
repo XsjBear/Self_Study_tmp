@@ -20,6 +20,11 @@ public class TargetServiceImpl implements ITargetService {
 	public ArrayList<TargetBean> selectAll() {
 		return TargetMapper.selectAll();
 	}
+
+	@Override
+	public TargetBean selectIdByContent(TargetBean targetBean) {
+		return TargetMapper.selectIdByContent(targetBean);
+	}
 	
 	
 

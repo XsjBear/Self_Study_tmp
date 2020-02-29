@@ -2,13 +2,15 @@ package com.self_study.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.self_study.bean.FriendBean;
+import com.self_study.bean.FriendInfoBean;
+import com.self_study.bean.TargetBean;
 import com.self_study.bean.UserInfoBean;
 import com.self_study.service.IStudyFriendService;
 import com.self_study.service.ITargetService;
@@ -28,26 +30,27 @@ public class StudyFriendController {
 	@Autowired
 	private ITargetService targetService;
 	
-//	/**
-//	 * 页面一加载时就发送此请求来加载表单中用户的个人信息
-//	 */
-//	@RequestMapping("/PageLoad")
-//	public Map<String, Object> loadRequest(HttpSession session) {
-//		UserInfoBean userInfo = (UserInfoBean) session.getAttribute("UserInfo");
-//		FriendBean friendInfo = studyFriendService.selectByUserId(userInfo);
-//		ArrayList<TargetBean> targetList = targetService.selectAll();
-//		
-//		Map<String, Object> transMap = new HashMap<String , Object>();
-//		transMap.put("target", targetList);
-//		if(friendInfo == null) {
-//			transMap.put("UserInfo", null);
-//		}else {
-//			transMap.put("UserInfo", friendInfo);
-//		}
-//		System.out.println(transMap);
-//		return transMap;
-//	}
-	
+	@RequestMapping("/addFriendInfo")
+	@ResponseBody
+	public int addFriendInfo(HttpSession session ,String Info , String targetDescription) {
+		UserInfoBean userInfoBean = (UserInfoBean)session.getAttribute("UserInfo");
+		JSONObject infomation = new JSONObject(Info);
+		 
+		 String currentState = "1";
+		 if("on".equals((String)infomation.get("open"))) {
+			 //表示当前用户同意公开自己的联系方式
+			 currentState = "1";
+		 }else {
+			 //表示当前用户不同意公开自己的联系方式
+			 currentState = "2";
+		 }
+		 //根据前台选择的目标查询出该目标的全部信息
+		 TargetBean taegetBean = targetService.selectIdByContent(new TargetBean(null,(String)infomation.get("interest"),null));
+		 FriendBean friendBeanInfo = new FriendBean(0,userInfoBean.getUserid(),Integer.valueOf(taegetBean.getTargetid()),currentState,targetDescription);
+		 int result = studyFriendService.addFriendInfo(friendBeanInfo);
+		 System.out.println(friendBeanInfo);
+		 return result;
+	}
 	
 	
 	
@@ -58,8 +61,8 @@ public class StudyFriendController {
 		int result = 0;
 //		Map<String,String> resultMap = new HashMap<String,String>();
 		UserInfoBean userInfo = (UserInfoBean) session.getAttribute("UserInfo"); 	//获取当前登陆用户信息
-		FriendBean friendBean = studyFriendService.selectByUserId(userInfo);	
-		if(friendBean == null) {
+		FriendInfoBean friendInfoBean = studyFriendService.selectByUserId(userInfo);	
+		if(friendInfoBean == null) {
 			//则说明当前friend表中不存在该用户的相关信息
 //			resultMap.put("Result", "-1");
 			result = -1;
