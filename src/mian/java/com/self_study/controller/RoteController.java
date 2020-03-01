@@ -29,6 +29,22 @@ public class RoteController {
 	@Autowired
 	private ITargetService targetService;
 	
+	@RequestMapping("/AboutSelf")
+	public String AboutSelf() {
+		return "AboutSelf";
+	}
+	
+	@RequestMapping("/SearchFriend")
+	public String SearchFriend() {
+		return "SearchFriend";
+	}
+	
+	@RequestMapping("/MyFriend")
+	public String MyFriend() {
+		return "MyFriend";
+	}
+	
+	
 	/**
 	 * 页面一加载时就发送此请求来加载表单中用户的个人信息
 	 */
@@ -50,24 +66,24 @@ public class RoteController {
 	
 	
 	@RequestMapping("/HomePage")
-	public String HomePage(HttpSession session) {
+	public String HomePage() {
 		return "HomePage";
 	}
 	
 	
 	@RequestMapping("/StudyFriend")
-	public String StudyFriend(HttpSession session) {
+	public String StudyFriend() {
 		return "StudyFriend";
 	}
 	
 	
 	@RequestMapping("/SelfInfo")
-	public String SelfInfo(HttpSession session) {
+	public String SelfInfo() {
 		return "SelfInfo";
 	}
 	
 	@RequestMapping("/FriendInfo")
-	public String FriendInfo(HttpSession session) {
+	public String FriendInfo() {
 		return "FriendInfo";
 	}
 

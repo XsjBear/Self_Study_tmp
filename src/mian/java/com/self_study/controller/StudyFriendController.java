@@ -1,5 +1,6 @@
 package com.self_study.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
@@ -56,8 +57,7 @@ public class StudyFriendController {
 	
 	@RequestMapping(value="/searchSelf")
 	@ResponseBody
-	public int searchSelf(HttpSession session) {
-		System.out.println("后台接收到检查自身的请求");
+	public int searchSelf(HttpSession session , HttpServletRequest request) {
 		int result = 0;
 //		Map<String,String> resultMap = new HashMap<String,String>();
 		UserInfoBean userInfo = (UserInfoBean) session.getAttribute("UserInfo"); 	//获取当前登陆用户信息
