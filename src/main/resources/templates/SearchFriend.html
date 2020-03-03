@@ -13,6 +13,7 @@
 
 <link href="Page/layui/css/layui.css" rel="stylesheet">
 <script type="text/javascript" src="Page/layui/layui.js "></script>
+<script type="text/javascript"  src="Page/js/jquery.cookie.js"></script>
 
 <!--[if lt IE 9]>
 <script src="js/modernizr.js" th:inline="none"></script>
@@ -49,21 +50,28 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 		  $(this).addClass("layui-this");
 	  });
 	  
-	  $(".StudyFriend_Menu").click(function(){
+	  /* 用户能跳转到该界面说明用户的信息已经经过验证，所以再点击跳转到searchFriend和MyFriend這两个界面则无需验证 */
+	  /*  $(".StudyFriend_Menu").click(function(){
+		  var state = null;
 			 $.post("SF/searchSelf",{op:1},function(data){
 				 layer.msg("有返回");
 				 if(data == 1){
 					//直接跳转至相关界面
 					 layer.msg("您的学习小伙伴相关资料已填写完整!!!!");
-					return true;
+					state = 1;
 				 }else{
 					 //跳转至相关的信息填写界面，让用户完善相关信息
 				    layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!");
+				    $.cookie("url","SearchFriend");
 					window.location.href="PageLoad";
 				 }
 			 },"json");
+			 layer.msg(state);
+			 if(state == 1){
+				 return true;
+			 }
 		   	 return false;
-		  });
+		  }); */
 	});
 </script>
 
@@ -207,20 +215,6 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 						<p>
 							<i><img src="Page/images/b05.jpg"></i>最简单的入门无非就是学会html和css，先前发表过一篇文章...
 						</p></li>
-				</ul>
-			</div>
-			<div class="links">
-				<h2 class="ab_title">友情链接</h2>
-				<ul>
-					<li><a href="/">杨青个人博客</a></li>
-					<li><a href="/">个人博客模板</a></li>
-					<li><a href="/">优秀个人博客</a></li>
-				</ul>
-			</div>
-			<div class="weixin">
-				<h2 class="ab_title">微信关注</h2>
-				<ul>
-					<img src="Page/images/wx.jpg">
 				</ul>
 			</div>
 		</div>

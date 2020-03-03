@@ -211,6 +211,17 @@ function reg(){
 	},"text");
 }
 
+$(document).keydown(function(event){ //监听键盘按下时的事件
+	if(event.keyCode == 13){
+		if($("#Log").css("display") == "block"){
+			userLogin();//如果用户点击了登陆界面的enter键，则执行登陆操作
+		}
+		if($("#Reg").css("display") == "block"){
+			reg();//如果用户点击了注册界面的enter键，则执行注册操作
+		}
+	}
+});
+
 //点击登陆响应事件
 function userLogin(){
 	var tel =$.trim($("#account").val());

@@ -29,4 +29,6 @@ public interface IUserInfoMapper {
 	
 	
 	
+	public UserInfoBean selectAll();
+	
 }

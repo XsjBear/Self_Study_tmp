@@ -49,6 +49,7 @@ layui.define(['layer', 'form','layedit', 'laydate'], function(exports){
     var targetDescription = $(".targetDescription").val();
     $.post("SF/addFriendInfo" , {Info:Info,targetDescription:targetDescription} ,function(data){
     	if(data == 1){
+    		window.location.href=$.cookie("url");
     		//跳转回到原界面
     	}else{
     		//提示用户添加失败

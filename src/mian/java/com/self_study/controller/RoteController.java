@@ -7,9 +7,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.self_study.bean.FriendBean;
+import com.self_study.bean.FriendInfoBean;
 import com.self_study.bean.TargetBean;
 import com.self_study.bean.UserInfoBean;
 import com.self_study.service.IStudyFriendService;
@@ -30,7 +31,18 @@ public class RoteController {
 	private ITargetService targetService;
 	
 	@RequestMapping("/AboutSelf")
-	public String AboutSelf() {
+	public String AboutSelf(HttpSession session , ModelMap model) {
+		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");	//从session中获取用户信息
+		FriendInfoBean friendInfo = studyFriendService.selectByUserId(userInfo);
+		
+		ArrayList<TargetBean> targetList = targetService.selectAll();
+		model.addAttribute("targetList", targetList);
+		model.addAttribute("FriendInfo", friendInfo);
+		model.addAttribute("UserInfo", userInfo);
+		
+		
+		
+		
 		return "AboutSelf";
 	}
 	

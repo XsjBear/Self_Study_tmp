@@ -16,5 +16,10 @@
 	<select id="selectByTel" resultType="UserInfoBean" parameterType="UserInfoBean">
 		select * from userinfo where tel = #{tel};
 	</select>
+	
+	<select id="selectAll" resultType="UserInfoBean" parameterType="UserInfoBean">
+		select * from userinfo where userid = #{userid};
+	</select>
+	
    
 </mapper>
