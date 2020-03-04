@@ -34,15 +34,14 @@ public class RoteController {
 	public String AboutSelf(HttpSession session , ModelMap model) {
 		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");	//从session中获取用户信息
 		FriendInfoBean friendInfo = studyFriendService.selectByUserId(userInfo);
-		
+		//如果用户未完善学习小伙伴的相关信息，则创建一个身份展示其他信息为空的对象
+		if(friendInfo == null) {
+			friendInfo = new FriendInfoBean("","","","1","");
+		}
 		ArrayList<TargetBean> targetList = targetService.selectAll();
 		model.addAttribute("targetList", targetList);
 		model.addAttribute("FriendInfo", friendInfo);
 		model.addAttribute("UserInfo", userInfo);
-		
-		
-		
-		
 		return "AboutSelf";
 	}
 	

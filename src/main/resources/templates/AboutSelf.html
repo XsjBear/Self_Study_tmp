@@ -14,8 +14,8 @@
 <!--[if lt IE 9]>
 <script src="js/modernizr.js" th:inline="none"></script>
 <![endif]-->
-<script type="text/javascript"  src="Page/js/page.js"></script>
 <script type="text/javascript"  src="Page/js/jquery.min.js"></script>
+<script type="text/javascript"  src="Page/js/page.js"></script>
 <script type="text/javascript"  src="Page/js/jquery.cookie.js"></script>
 <!-- 引入layui相关文件 -->
 <script type="text/javascript"  src="Page/layui/layui.js "></script>
@@ -126,7 +126,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">昵称</label>
 					<div class="layui-input-block">
-						<input type="text" name="nickname" lay-verify="required" th:text=${UserInfo.getNickname()}
+						<input type="text" name="nickname" lay-verify="required" th:value=${UserInfo.nickname}
 							autocomplete="off" placeholder="请输入您的昵称" class="layui-input" >
 					</div>
 				</div>
@@ -134,7 +134,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">姓名</label>
 					<div class="layui-input-block">
-						<input type="text" name="realname" lay-verify="required" th:text="${session.UserInfo.realname}"
+						<input type="text" name="realname" lay-verify="required" th:value="${session.UserInfo.realname}"
 							lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" autocomplete="off"
 							class="layui-input">
 					</div>
@@ -145,7 +145,7 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">验证手机</label>
 						<div class="layui-input-inline">
-							<input type="tel" name="tel" lay-verify="required|phone" th:text="${session.UserInfo.trl}"
+							<input type="tel" name="tel" lay-verify="required|phone" th:value="${session.UserInfo.tel}"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -153,7 +153,7 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">验证邮箱</label>
 						<div class="layui-input-inline">
-							<input type="text" name="email" lay-verify="email"
+							<input type="text" name="email" lay-verify="email" th:value="${session.UserInfo.mail}"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -166,8 +166,9 @@
 						<label class="layui-form-label">性别</label>
 						<div class="layui-input-block">
 							<select name="sex" lay-filter="required ">
-								<option value="0">女</option>
-								<option value="1" selected="">男</option>
+								<option selected="" th:text="${session.UserInfo.sex}"></option>
+								<option value="0">男</option>
+								<option value="1">女</option>
 							</select>
 						</div>
 					</div>
@@ -176,7 +177,7 @@
 					&nbsp;&nbsp;&nbsp;
 						<label class="layui-form-label">出生日期</label>
 						<div class="layui-input-inline">
-							<input type="text" name="birthday" id="date" lay-verify="date"
+							<input type="text" name="birthday" id="date" lay-verify="date" th:value="${session.UserInfo.birthday}"
 								placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -188,7 +189,7 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">QQ</label>
 						<div class="layui-input-inline">
-							<input type="text" name="QQ" lay-verify="number"
+							<input type="text" name="QQ" lay-verify="number" th:value="${session.UserInfo.qq}"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -196,7 +197,7 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">WeChat</label>
 						<div class="layui-input-inline">
-							<input type="text" name="WeChat" lay-verify="number"
+							<input type="text" name="WeChat" lay-verify="number" th:value="${session.UserInfo.wechat}"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -208,7 +209,7 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">学校</label>
 						<div class="layui-input-inline">
-							<input type="text" name="school" lay-verify="required "
+							<input type="text" name="school" lay-verify="required " th:value="${session.UserInfo.school}"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -216,7 +217,7 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">学号</label>
 						<div class="layui-input-inline">
-							<input type="text" name="stu_num" lay-verify="number"
+							<input type="text" name="stu_num" lay-verify="number" th:value="${session.UserInfo.stu_num}"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -227,7 +228,7 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">专业</label>
 						<div class="layui-input-inline">
-							<input type="text" name="major" lay-verify="required "
+							<input type="text" name="major" lay-verify="required " th:value="${session.UserInfo.major}"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -235,17 +236,19 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">班级</label>
 						<div class="layui-input-inline">
-							<input type="text" name="class" lay-verify="number"
+							<input type="text" name="class" lay-verify="number" th:value="${session.UserInfo.class_num}"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
 				</div>
 				
+				<hr>
+				
 				<div class="layui-form-item">
 					<label class="layui-form-label">选择目标</label>
 					<div class="layui-input-block">
 						<select name="interest" lay-filter="aihao">
-							<!-- <option th:value="${friendInfo.targetcontent}" th:text="${target.targetcontent}" selected=""></option>  -->
+							<option th:value="${FriendInfo.getTargetcontent()}" th:text="${FriendInfo.getTargetcontent()}" selected=""></option>
 							<!-- <option value="0">写作</option> -->
 							 <option th:each="target:${targetList}" th:value="${target.targetcontent}" th:text="${target.targetcontent}"></option>	
 						</select>
@@ -254,15 +257,17 @@
 
 				<div class="layui-form-item">
 					<label class="layui-form-label">是否公开个人联系方式</label>
-					<div class="layui-input-block">
-						<input type="checkbox" checked="" name="open" lay-skin="switch"
+					<div class="layui-input-block" >
+						<input type="checkbox" checked="" name="open" lay-skin="switch" th:if="${FriendInfo.getCurrent_state()} == 1"
 							lay-filter="switchTest" lay-text="公开|不公开">
+						<input type="checkbox"  name="open" lay-skin="switch" th:if="${FriendInfo.getCurrent_state()} == 2"
+						lay-filter="switchTest" lay-text="公开|不公开">
 					</div>
 				</div>
 				<div class="layui-form-item layui-form-text">
 					<label class="layui-form-label">目标描述</label>
 					<div class="layui-input-block">
-						<textarea placeholder="描述一下你对目标的期望吧!!!!!" class="layui-textarea targetDescription"></textarea>
+						<textarea placeholder="描述一下你对目标的期望吧!!!!!" th:text="${FriendInfo.getTarget_description()}" class="layui-textarea targetDescription"></textarea>
 					</div>
 				</div>
 				

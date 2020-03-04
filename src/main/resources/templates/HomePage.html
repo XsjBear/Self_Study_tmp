@@ -12,32 +12,21 @@
 <link href="Page/css/m.css" rel="stylesheet">
 
 <link href="Page/layui/css/layui.css" rel="stylesheet">
+<script type="text/javascript"  src="Page/js/jquery.min.js"></script>
 <script type="text/javascript"  src="Page/layui/layui.js "></script>
 
 <!--[if lt IE 9]>
 <script src="js/modernizr.js" th:inline="none"></script>
 <![endif]-->
 <script type="text/javascript"  src="Page/js/page.js"></script>
-<script type="text/javascript"  src="Page/js/jquery.min.js"></script>
 <script type="text/javascript"  src="Page/js/jquery.cookie.js"></script>
 <script type="text/javascript">
-
-window.onload = function ()
-{
-/* 	var oH2 = document.getElementById("mnavh"); 
- */	var oUl = document.getElementById("starlist");  
-	/* oH2.onclick = function ()
-	{
-		var style = oUl.style;
-		style.display = style.display == "block" ? "none" : "block";
-		oH2.className = style.display == "block" ? "open" : ""
-	} */
-}
 
 /* 引入element模块，导航栏二级菜单需要 */
 layui.use(['element' , 'jquery', 'layer'], function(){
 	  var element = layui.element,//导航的hover效果、二级菜单等功能，需要依赖element模块
-	  $ = layui.jquery; //引用jquery模块
+	  $ = layui.jquery,
+	  layer = layui.layer; //引用jquery模块
 	  
 	  //监听导航点击
 	  element.on('nav(demo)', function(elem){
@@ -51,12 +40,16 @@ layui.use(['element' , 'jquery', 'layer'], function(){
 	  
 	  $(".StudyFriend_Menu").click(function(){
 		  var state = null;
+		  layer.open({
+			  title: '信息展示'
+			  ,content: '发送了请求，此时State为：' + state
+			  ,time:10*1000,
+			}); 
 			 $.post("SF/searchSelf",{op:1},function(data){
-				 layer.msg("有返回");
 				 if(data == 1){
 					//直接跳转至相关界面
-					 layer.msg("您的学习小伙伴相关资料已填写完整!!!!");
-					state = 1;
+					 layer.msg("您的学习小伙伴相关资料已填写完整!!!!",{time:2*1000});
+					 state = 1;
 				 }else{
 					 //跳转至相关的信息填写界面，让用户完善相关信息
 				    layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!");
