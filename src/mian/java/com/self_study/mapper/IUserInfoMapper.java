@@ -28,7 +28,18 @@ public interface IUserInfoMapper {
 	public UserInfoBean selectByTel(UserInfoBean userInfoBean);
 	
 	
+	/**
+	 * 根据userid查询出用户的相关信息
+	 * @return
+	 */
+	public UserInfoBean selectAllByUserId();
 	
-	public UserInfoBean selectAll();
+	
+	/**
+	 * 根据userid以及传输的数据更新用户信息
+	 * @param userInfoBean
+	 * @return
+	 */
+	public int updataUserInfo(UserInfoBean userInfoBean);
 	
 }

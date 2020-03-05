@@ -13,5 +13,10 @@
 		 insert into friend values( #{id} , #{userid}  , #{targetid},  #{current_state}, #{target_description});
 	</insert>
 	
+	<update id="updataFriendInfo" parameterType="FriendBean">
+		update friend set targetid= #{targetid},current_state= #{current_state},target_description= #{target_description} where userid = #{userid} ;
+	</update>
+	
+	
    
 </mapper>

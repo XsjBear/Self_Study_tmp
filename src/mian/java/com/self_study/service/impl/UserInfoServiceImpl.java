@@ -29,4 +29,14 @@ public class UserInfoServiceImpl implements IUserInfoService {
 		return userInfoMapper.selectByTel(userInfoBean);
 	}
 
+	@Override
+	public UserInfoBean selectAllByUserId() {
+		return userInfoMapper.selectAllByUserId();
+	}
+
+	@Override
+	public int updataUserInfo(UserInfoBean userInfoBean) {
+		return userInfoMapper.updataUserInfo(userInfoBean);
+	}
+
 }

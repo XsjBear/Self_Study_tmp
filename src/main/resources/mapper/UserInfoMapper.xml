@@ -17,9 +17,13 @@
 		select * from userinfo where tel = #{tel};
 	</select>
 	
-	<select id="selectAll" resultType="UserInfoBean" parameterType="UserInfoBean">
+	<select id="selectAllByUserId" resultType="UserInfoBean" parameterType="UserInfoBean">
 		select * from userinfo where userid = #{userid};
 	</select>
+	
+	<update id="updataUserInfo" parameterType="UserInfoBean">
+		update userinfo set  nickname = #{nickname}, realname = #{realname}, sex = #{sex}, birthday = #{birthday}, tel = #{tel}, qq = #{qq}, wechat = #{wechat}, mail = #{mail}, school = #{school}, stu_num = #{stu_num}, major = #{major}, class_num = #{class_num} where userid = #{userid};
+	</update>
 	
    
 </mapper>

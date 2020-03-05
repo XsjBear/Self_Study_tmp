@@ -22,4 +22,14 @@ public interface IStudyFriendMapper {
 	 */
 	public int addFriendInfo(FriendBean firendBean);
 	
+	
+	/**
+	 *更新相关信息
+	 * @param firendBean
+	 * @return
+	 */
+	public int updataFriendInfo(FriendBean firendBean);
+	
+	
+	
 }

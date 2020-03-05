@@ -14,9 +14,6 @@ layui.define(['layer', 'form','layedit', 'laydate'], function(exports){
   
   //监听指定开关
   form.on('switch(switchTest)', function(data){
-    /*layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-      offset: '6px'
-    });*/
 	  //获取公开身份开关的选择状态
 	  state = this.checked ? 'true' : 'false';
   });

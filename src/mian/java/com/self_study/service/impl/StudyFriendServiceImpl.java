@@ -25,6 +25,11 @@ public class StudyFriendServiceImpl implements IStudyFriendService {
 	public int addFriendInfo(FriendBean firendBean) {
 		return studyFriendMapper.addFriendInfo(firendBean);
 	}
+
+	@Override
+	public int updataFriendInfo(FriendBean firendBean) {
+		return studyFriendMapper.updataFriendInfo(firendBean);
+	}
 	
 	
 

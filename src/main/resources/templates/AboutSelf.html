@@ -21,16 +21,16 @@
 <script type="text/javascript"  src="Page/layui/layui.js "></script>
 <script>
 
-	/* 引入自定义模块 */
-	layui.config({
-		base : 'Page/js/' //你存放新模块的目录，注意，不是layui的模块目录
-	}).use('SelfInfo'); //加载入口
-	
+
 
 	/* 引入element模块，导航栏二级菜单需要 */
-	layui.use([ 'element', 'jquery' , 'layer'], function() {
+	layui.use([ 'element', 'jquery', 'layer', 'form','layedit', 'laydate' ], function() {
 		var element = layui.element, //导航的hover效果、二级菜单等功能，需要依赖element模块
-		$ = layui.jquery; //引用jquery模块
+		$ = layui.jquery, //引用jquery模块
+		layer = layui.layer,
+		 form = layui.form
+		  ,layedit = layui.layedit
+		  ,laydate = layui.laydate;
 
 		//监听导航点击
 		element.on('nav(demo)', function(elem) {
@@ -41,28 +41,62 @@
 		$(".layui-nav-item dd").click(function() {
 			$(this).addClass("layui-this");
 		})
-		
-		 $(".StudyFriend_Menu").click(function(){
-			  var state = null;
-				 $.post("SF/searchSelf",{op:1},function(data){
-					 layer.msg("有返回");
-					 if(data == 1){
-						//直接跳转至相关界面
-						 layer.msg("您的学习小伙伴相关资料已填写完整!!!!");
-						state = 1;
-					 }else{
-						 //跳转至相关的信息填写界面，让用户完善相关信息
-					    layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!");
-					    $.cookie("url","AboutSelf");
-						window.location.href="PageLoad";
-					 }
-				 },"json");
-				 layer.msg(state);
-				 if(state == 1){
-					 return true;
-				 }
-			   	 return false;
-			  });
+
+		$(".StudyFriend_Menu").click(function() {
+			var state = null;
+			$.post("SF/searchSelf", {
+				op : 1
+			}, function(data) {
+				layer.msg("有返回");
+				if (data == 1) {
+					//直接跳转至相关界面
+					layer.msg("您的学习小伙伴相关资料已填写完整!!!!");
+					state = 1;
+				} else {
+					//跳转至相关的信息填写界面，让用户完善相关信息
+					layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!");
+					$.cookie("url", "AboutSelf");
+					window.location.href = "PageLoad";
+				}
+			}, "json");
+			layer.msg(state);
+			if (state == 1) {
+				return true;
+			}
+			return false;
+		});
+
+		//监听提交
+		form.on('submit(demo1)', function(data) {
+			var Info = JSON.stringify(data.field);
+			var targetDescription = $(".targetDescription").val();
+			$.post("selfInfo/changeInfo", {
+				Info : Info,
+				targetDescription : targetDescription
+			}, function(data) {
+				/* var userInfoUpadataResult = data.userInfoUpadataResult;
+				var friendInfoUpdataResult = data.friendInfoUpdataResult;
+				layer.msg(userInfoUpadataResult + friendInfoUpdataResult,{time:2*1000});
+				if(userInfoUpadataResult == 1 && friendInfoUpdataResult == 1 ){
+					layer.msg("个人信息和学习小伙伴信息都更新成功!!!",{time:1000});
+				}else if(userInfoUpadataResult == 1 && friendInfoUpdataResult != 1 ){
+					layer.msg("个人信息更新成功，学习小伙伴信息暂未更新!!!",{time:2*1000});
+				}else if(userInfoUpadataResult != 1 && friendInfoUpdataResult == 1 ){
+					layer.msg("个人信息暂未更新，学习小伙伴信息更新成功!!!",{time:2*1000});
+				} */
+				if(data.all > 0){
+					layer.msg("信息更新成功!!!",{time:2*1000});
+				}else{
+					layer.msg("信息暂未更新!!!",{time:2*1000});
+				}
+				location.reload();
+			}, "json"); 
+
+		/* 	layer.alert(Info + "  " + targetDescription); */
+
+			return false;
+		}); 
+
 	});
 </script>
 </head>
@@ -273,7 +307,7 @@
 				
 				<div class="layui-form-item">
 					<div class="layui-input-block">
-						<button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+						<button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即修改</button>
 						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 					</div>
 				</div>
