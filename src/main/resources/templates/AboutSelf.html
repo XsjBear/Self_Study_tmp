@@ -31,7 +31,16 @@
 		 form = layui.form
 		  ,layedit = layui.layedit
 		  ,laydate = layui.laydate;
+		
+		pageload();
 
+		function pageload(){
+			 var isSelf = $("#isSelf").val();
+			 if(isSelf == 'false'){
+				 $(".infoShow").attr("disabled","disabled");
+			 }
+		}
+		
 		//监听导航点击
 		element.on('nav(demo)', function(elem) {
 			//console.log(elem)
@@ -74,16 +83,6 @@
 				Info : Info,
 				targetDescription : targetDescription
 			}, function(data) {
-				/* var userInfoUpadataResult = data.userInfoUpadataResult;
-				var friendInfoUpdataResult = data.friendInfoUpdataResult;
-				layer.msg(userInfoUpadataResult + friendInfoUpdataResult,{time:2*1000});
-				if(userInfoUpadataResult == 1 && friendInfoUpdataResult == 1 ){
-					layer.msg("个人信息和学习小伙伴信息都更新成功!!!",{time:1000});
-				}else if(userInfoUpadataResult == 1 && friendInfoUpdataResult != 1 ){
-					layer.msg("个人信息更新成功，学习小伙伴信息暂未更新!!!",{time:2*1000});
-				}else if(userInfoUpadataResult != 1 && friendInfoUpdataResult == 1 ){
-					layer.msg("个人信息暂未更新，学习小伙伴信息更新成功!!!",{time:2*1000});
-				} */
 				if(data.all > 0){
 					layer.msg("信息更新成功!!!",{time:2*1000});
 				}else{
@@ -91,9 +90,6 @@
 				}
 				location.reload();
 			}, "json"); 
-
-		/* 	layer.alert(Info + "  " + targetDescription); */
-
 			return false;
 		}); 
 
@@ -102,6 +98,8 @@
 </head>
 
 <body>
+	
+	<input type="hidden" th:value="${isSelf}" id="isSelf"/>
 	
 	<ul class="layui-nav">
 		<li class="layui-nav-item"><a href="HomePage">首页</a></li>
@@ -160,17 +158,17 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">昵称</label>
 					<div class="layui-input-block">
-						<input type="text" name="nickname" lay-verify="required" th:value=${UserInfo.nickname}
-							autocomplete="off" placeholder="请输入您的昵称" class="layui-input" >
+						<input type="text" name="nickname" lay-verify="required" th:value=${UserInfo.getNickname()}
+							autocomplete="off" placeholder="请输入您的昵称" class="layui-input infoShow" >
 					</div>
 				</div>
 				
 				<div class="layui-form-item">
 					<label class="layui-form-label">姓名</label>
 					<div class="layui-input-block">
-						<input type="text" name="realname" lay-verify="required" th:value="${session.UserInfo.realname}"
+						<input type="text" name="realname" lay-verify="required" th:value=${UserInfo.getRealname()}
 							lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" autocomplete="off"
-							class="layui-input">
+							class="layui-input infoShow">
 					</div>
 				</div>
 
@@ -179,16 +177,16 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">验证手机</label>
 						<div class="layui-input-inline">
-							<input type="tel" name="tel" lay-verify="required|phone" th:value="${session.UserInfo.tel}"
-								autocomplete="off" class="layui-input">
+							<input type="tel" name="tel" lay-verify="required|phone" th:value=${UserInfo.getTel()}
+								autocomplete="off" class="layui-input infoShow">
 						</div>
 					</div>
 					
 					<div class="layui-inline">
 						<label class="layui-form-label">验证邮箱</label>
 						<div class="layui-input-inline">
-							<input type="text" name="email" lay-verify="email" th:value="${session.UserInfo.mail}"
-								autocomplete="off" class="layui-input">
+							<input type="text" name="email" lay-verify="email" th:value=${UserInfo.getMail()}
+								autocomplete="off" class="layui-input infoShow">
 						</div>
 					</div>
 					
@@ -200,7 +198,7 @@
 						<label class="layui-form-label">性别</label>
 						<div class="layui-input-block">
 							<select name="sex" lay-filter="required ">
-								<option selected="" th:text="${session.UserInfo.sex}"></option>
+								<option selected="" th:text=${UserInfo.getSex()}></option>
 								<option value="0">男</option>
 								<option value="1">女</option>
 							</select>
@@ -211,8 +209,8 @@
 					&nbsp;&nbsp;&nbsp;
 						<label class="layui-form-label">出生日期</label>
 						<div class="layui-input-inline">
-							<input type="text" name="birthday" id="date" lay-verify="date" th:value="${session.UserInfo.birthday}"
-								placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+							<input type="text" name="birthday" id="date" lay-verify="date" th:value=${UserInfo.getBirthday()}
+								placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input infoShow">
 						</div>
 					</div>
 					
@@ -223,16 +221,16 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">QQ</label>
 						<div class="layui-input-inline">
-							<input type="text" name="QQ" lay-verify="number" th:value="${session.UserInfo.qq}"
-								autocomplete="off" class="layui-input">
+							<input type="text" name="QQ" lay-verify="number" th:value=${UserInfo.getQq()}
+								autocomplete="off" class="layui-input infoShow">
 						</div>
 					</div>
 
 					<div class="layui-inline">
 						<label class="layui-form-label">WeChat</label>
 						<div class="layui-input-inline">
-							<input type="text" name="WeChat" lay-verify="number" th:value="${session.UserInfo.wechat}"
-								autocomplete="off" class="layui-input">
+							<input type="text" name="WeChat" lay-verify="number" th:value=${UserInfo.getWechat()}
+								autocomplete="off" class="layui-input infoShow">
 						</div>
 					</div>
 				</div>
@@ -243,16 +241,16 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">学校</label>
 						<div class="layui-input-inline">
-							<input type="text" name="school" lay-verify="required " th:value="${session.UserInfo.school}"
-								autocomplete="off" class="layui-input">
+							<input type="text" name="school" lay-verify="required " th:value=${UserInfo.getSchool()}
+								autocomplete="off" class="layui-input infoShow">
 						</div>
 					</div>
 
 					<div class="layui-inline">
 						<label class="layui-form-label">学号</label>
 						<div class="layui-input-inline">
-							<input type="text" name="stu_num" lay-verify="number" th:value="${session.UserInfo.stu_num}"
-								autocomplete="off" class="layui-input">
+							<input type="text" name="stu_num" lay-verify="number" th:value=${UserInfo.getStu_num()}
+								autocomplete="off" class="layui-input infoShow">
 						</div>
 					</div>
 				</div>
@@ -262,16 +260,16 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">专业</label>
 						<div class="layui-input-inline">
-							<input type="text" name="major" lay-verify="required " th:value="${session.UserInfo.major}"
-								autocomplete="off" class="layui-input">
+							<input type="text" name="major" lay-verify="required " th:value=${UserInfo.getMajor()}
+								autocomplete="off" class="layui-input infoShow">
 						</div>
 					</div>
 
 					<div class="layui-inline">
 						<label class="layui-form-label">班级</label>
 						<div class="layui-input-inline">
-							<input type="text" name="class" lay-verify="number" th:value="${session.UserInfo.class_num}"
-								autocomplete="off" class="layui-input">
+							<input type="text" name="class" lay-verify="number" th:value=${UserInfo.getClass_num()}
+								autocomplete="off" class="layui-input infoShow">
 						</div>
 					</div>
 				</div>
@@ -301,11 +299,11 @@
 				<div class="layui-form-item layui-form-text">
 					<label class="layui-form-label">目标描述</label>
 					<div class="layui-input-block">
-						<textarea placeholder="描述一下你对目标的期望吧!!!!!" th:text="${FriendInfo.getTarget_description()}" class="layui-textarea targetDescription"></textarea>
+						<textarea placeholder="描述一下你对目标的期望吧!!!!!" th:text="${FriendInfo.getTarget_description()}" class="layui-textarea targetDescription infoShow"></textarea>
 					</div>
 				</div>
 				
-				<div class="layui-form-item">
+				<div class="layui-form-item"  th:if="${isSelf}  eq 'true'">
 					<div class="layui-input-block">
 						<button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即修改</button>
 						<button type="reset" class="layui-btn layui-btn-primary">重置</button>

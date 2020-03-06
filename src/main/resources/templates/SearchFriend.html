@@ -122,22 +122,8 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 
 				<ul>
 
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
+					<li th:each="friendInfo:${AllFriendInfo}"><span th:text="${friendInfo.nickname}"></span> <b th:text="${friendInfo.targetcontent}"></b><span th:text="${friendInfo.target_description}"></span>
+					<a th:href="@{'AboutSelf?userid='+ ${friendInfo.userid}}"  class="readmore">查看他的个人主页</a></li>
 
 					<!-- <li>
           <div class="tpic"><img src="Page/images/b02.jpg"></div>

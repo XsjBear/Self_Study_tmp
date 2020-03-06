@@ -11,10 +11,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.self_study.bean.FriendInfoBean;
+import com.self_study.bean.StudyFriendInfoBean;
 import com.self_study.bean.TargetBean;
 import com.self_study.bean.UserInfoBean;
 import com.self_study.service.IStudyFriendService;
 import com.self_study.service.ITargetService;
+import com.self_study.service.IUserInfoService;
 
 /**
  * 路由控制器，用以访问WEB-INF目录下的页面
@@ -30,9 +32,25 @@ public class RoteController {
 	@Autowired
 	private ITargetService targetService;
 	
+	@Autowired
+	private IUserInfoService userInfoService;
+	
 	@RequestMapping("/AboutSelf")
-	public String AboutSelf(HttpSession session , ModelMap model) {
-		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");	//从session中获取用户信息
+	public String AboutSelf(String userid ,HttpSession session , ModelMap model) {
+		System.out.println("UerId: " + userid);
+		UserInfoBean userInfo = null;
+		if(userid == null) {
+			//说明是自己访问自己的个人主页
+			model.addAttribute("isSelf", "true");
+			userInfo = (UserInfoBean)session.getAttribute("UserInfo");	//从session中获取用户信息
+		}else {
+			//说明不是访问自己的主页，查询对应id的信息并且不提供修改个人信息按钮
+			model.addAttribute("isSelf", "false");
+			userInfo = new UserInfoBean();
+			userInfo.setUserid(Integer.valueOf(userid));
+			userInfo = userInfoService.selectAllByUserId(userInfo);
+		}
+		System.out.println("UserInfo : " + userInfo);
 		FriendInfoBean friendInfo = studyFriendService.selectByUserId(userInfo);
 		//如果用户未完善学习小伙伴的相关信息，则创建一个身份展示其他信息为空的对象
 		if(friendInfo == null) {
@@ -46,7 +64,10 @@ public class RoteController {
 	}
 	
 	@RequestMapping("/SearchFriend")
-	public String SearchFriend() {
+	public String SearchFriend(HttpSession session , ModelMap model) {
+		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");
+		ArrayList<StudyFriendInfoBean> list = studyFriendService.selectAll(userInfo);
+		model.addAttribute("AllFriendInfo", list);
 		return "SearchFriend";
 	}
 	

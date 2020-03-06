@@ -1,10 +1,13 @@
 package com.self_study.service.impl;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.self_study.bean.FriendBean;
 import com.self_study.bean.FriendInfoBean;
+import com.self_study.bean.StudyFriendInfoBean;
 import com.self_study.bean.UserInfoBean;
 import com.self_study.mapper.IStudyFriendMapper;
 import com.self_study.service.IStudyFriendService;
@@ -30,6 +33,12 @@ public class StudyFriendServiceImpl implements IStudyFriendService {
 	public int updataFriendInfo(FriendBean firendBean) {
 		return studyFriendMapper.updataFriendInfo(firendBean);
 	}
+
+	@Override
+	public ArrayList<StudyFriendInfoBean> selectAll(UserInfoBean userInfo) {
+		return studyFriendMapper.selectAll(userInfo);
+	}
+
 	
 	
 

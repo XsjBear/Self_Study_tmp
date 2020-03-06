@@ -30,8 +30,8 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	}
 
 	@Override
-	public UserInfoBean selectAllByUserId() {
-		return userInfoMapper.selectAllByUserId();
+	public UserInfoBean selectAllByUserId(UserInfoBean userInfo) {
+		return userInfoMapper.selectAllByUserId(userInfo);
 	}
 
 	@Override
