@@ -80,7 +80,7 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 		<li class="layui-nav-item"><a href="">经验座谈会</a>
 			<dl class="layui-nav-child">
 				<dd>
-					<a href="">我的分享</a>
+					<a href="MyShare">我的分享</a>
 				</dd>
 				<dd>
 					<a href="">优秀分享</a>
@@ -123,12 +123,8 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 				<ul>
 
 					<li th:each="friendInfo:${AllFriendInfo}"><span th:text="${friendInfo.nickname}"></span> <b th:text="${friendInfo.targetcontent}"></b><span th:text="${friendInfo.target_description}"></span>
-					<a th:href="@{'AboutSelf?userid='+ ${friendInfo.userid}}"  class="readmore">查看他的个人主页</a></li>
+					<a th:href="@{'AboutSelf?userid='+ ${friendInfo.userid}}"  class="readmore">查看他的个人主页</a><a class="readmore">添加他/她为好友</a></li>
 
-					<!-- <li>
-          <div class="tpic"><img src="Page/images/b02.jpg"></div>
-          <b>作为一个设计师,如果遭到质疑你是否能恪守自己的原则</b><span>就拿我自己来说吧，有时候会很矛盾，设计好的作品，不把它分享出来，会觉得待在自己电脑里面实在是没有意义...</span><a href="/" class="readmore">阅读原文</a></li>
-		 -->
 				</ul>
 
 				<!-- 分页 -->

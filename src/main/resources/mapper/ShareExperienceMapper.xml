@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.orc//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+     
+<mapper namespace="com.self_study.mapper.IShareExperienceMapper">
+
+   <select id="selectByUserId" parameterType="UserInfoBean" resultType="ShareExperienceBean">
+   		select * from experience_share where userid = #{userid}
+   </select>
+   
+</mapper>

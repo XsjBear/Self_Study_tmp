@@ -1,0 +1,267 @@
+<!doctype html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>天天爱学习网站</title>
+<meta name="keywords" content="我要分享" />
+<!-- <meta name="description" content="我要分享" /> -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="Page/css/base.css" rel="stylesheet">
+<link href="Page/css/index.css" rel="stylesheet">
+<link href="Page/css/custom.css" rel="stylesheet">
+<link href="Page/css/m.css" rel="stylesheet">
+<link href="Page/layui/css/layui.css" rel="stylesheet">
+<!--[if lt IE 9]>
+<script src="js/modernizr.js" th:inline="none"></script>
+<![endif]-->
+<script type="text/javascript"  src="Page/js/jquery.min.js"></script>
+<script type="text/javascript"  src="Page/js/page.js"></script>
+<script type="text/javascript"  src="Page/js/jquery.cookie.js"></script>
+<!-- 引入layui相关文件 -->
+<script type="text/javascript"  src="Page/layui/layui.js "></script>
+<script src="Page/ckeditor/ckeditor.js"></script>
+<script>
+
+
+
+	/* 引入element模块，导航栏二级菜单需要 */
+	layui.use([ 'element', 'jquery', 'layer', 'form','layedit', 'laydate' ], function() {
+		var element = layui.element, //导航的hover效果、二级菜单等功能，需要依赖element模块
+		$ = layui.jquery, //引用jquery模块
+		layer = layui.layer,
+		 form = layui.form
+		  ,layedit = layui.layedit
+		  ,laydate = layui.laydate;
+		
+		pageload();
+
+		function pageload(){
+			 var isSelf = $("#isSelf").val();
+			 if(isSelf == 'false'){
+				 $(".infoShow").attr("disabled","disabled");
+			 }
+		}
+		
+		//监听导航点击
+		element.on('nav(demo)', function(elem) {
+			//console.log(elem)
+			layer.msg(elem.text());
+		});
+
+		$(".layui-nav-item dd").click(function() {
+			$(this).addClass("layui-this");
+		})
+
+		$(".StudyFriend_Menu").click(function() {
+			var state = null;
+			$.post("SF/searchSelf", {
+				op : 1
+			}, function(data) {
+				layer.msg("有返回");
+				if (data == 1) {
+					//直接跳转至相关界面
+					layer.msg("您的学习小伙伴相关资料已填写完整!!!!");
+					state = 1;
+				} else {
+					//跳转至相关的信息填写界面，让用户完善相关信息
+					layer.msg("您的学习小伙伴相关资料未填写完整,为了您和他人良好的用户体验,请您先完善相关信息!!!!");
+					$.cookie("url", "AboutSelf");
+					window.location.href = "PageLoad";
+				}
+			}, "json");
+			layer.msg(state);
+			if (state == 1) {
+				return true;
+			}
+			return false;
+		});
+
+		CKEDITOR.replace( 'editor1' );
+		//监听提交
+		form.on('submit(demo1)', function(data) {
+			
+			var title = data.value;
+			layer.msg(title,{time:2*1000});
+			layer.msg(data.othis,{time:2*1000});
+			
+			/* var Info = JSON.stringify(data.field);
+			var experienceContent = $.trim(CKEDITOR.instances.editor1.getData());
+			layer.msg(Info + "  : " + experienceContent); */
+			/* $.post("selfInfo/changeInfo", {
+				Info : Info,
+				targetDescription : targetDescription
+			}, function(data) {
+			}, "json");  */
+			return false;
+		}); 
+		
+/* 		 //双击我触发
+		  lay('#test26-1').on('dblclick', function(){
+		    laydate.render({
+		      elem: '#test26'
+		      ,show: true
+		      ,closeStop: '#test26-1'
+		    });
+		  }); */
+		  
+
+	});
+</script>
+</head>
+
+<body>
+	
+	<ul class="layui-nav">
+		<li class="layui-nav-item"><a href="HomePage">首页</a></li>
+		<li class="layui-nav-item"><a href="StudyFriend">学习小伙伴</a>
+			<dl class="layui-nav-child">
+				<dd>
+					<a class="StudyFriend_Menu" href="MyFriend">我的小伙伴</a>
+				</dd>
+				<dd>
+					<a class="StudyFriend_Menu" href="SearchFriend">寻找小伙伴</a>
+				</dd>
+			</dl></li>
+		<li class="layui-nav-item"><a href="">经验座谈会</a>
+			<dl class="layui-nav-child">
+				<dd >
+					<a href="MyShare">我的分享</a>
+				</dd>
+				<dd>
+					<a href="">优秀分享</a>
+				</dd>
+			</dl></li>
+		<li class="layui-nav-item"><a href="">答疑解惑</a></li>
+		<li class="layui-nav-item"><a href="">Flag</a></li>
+		<li class="layui-nav-item"><a href="">考试援助</a></li>
+		<li class="layui-nav-item"><a href="javascript:void(0);"
+			th:text="${session.UserInfo.nickname}"></a>
+			<dl class="layui-nav-child">
+				<dd class="layui-this">
+					<a href="AboutSelf">关于我</a>
+				</dd>
+				<dd>
+					<a href="">我的收藏</a>
+				</dd>
+				<dd >
+					<a href="">我的分享</a>
+				</dd>
+				<dd>
+					<a href="">我的讨论</a>
+				</dd>
+			</dl></li>
+		<li class="layui-nav-item"><a href="Page/login.html">退出</a></li>
+	</ul>
+	<!-- 间隔行 -->
+	<div class="line46"></div>
+<article>
+
+ 
+  
+  <div class="blank"></div>
+
+		
+		<!-- 个人信息展示主体 -->
+		<div class="leftbox">
+			<form class="layui-form" action="">
+			
+			<div class="layui-form-item">
+					<label class="layui-form-label">选择分享类型</label>
+					<div class="layui-input-block">
+						<select name="shareType" lay-filter="aihao">
+<!-- 							<option th:value="${FriendInfo.getTargetcontent()}" th:text="${FriendInfo.getTargetcontent()}" selected=""></option>
+ -->							<option  selected=""></option>
+							<!-- <option value="0">写作</option> -->
+							 <option ></option>	
+<!-- 							 <option th:each="target:${targetList}" th:value="${target.targetcontent}" th:text="${target.targetcontent}"></option>	 -->
+						</select>
+					</div>
+				</div>
+
+
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">标题</label>
+					<div class="layui-input-block">
+						<input type="text" name="title" lay-verify="required" 
+							autocomplete="off" placeholder="请输入您的分享标题" class="layui-input infoShow" >
+					</div>
+				</div>
+				
+				<!-- <div class="layui-form-item">
+					<label class="layui-form-label" id="test26-1"></label>
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input" id="test26"
+							placeholder="yyyy-MM-dd">
+					</div>
+				</div> -->
+				
+				
+				<div class="layui-form-item">
+					<label class="layui-form-label">正文</label>
+					<div class="layui-input-block">
+						 <textarea name="editor1" id="editor1" rows="10" cols="80"></textarea>
+					</div>
+				</div>
+				
+				
+				
+				<div class="layui-form-item" >
+					<div class="layui-input-block">
+						<button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即修改</button>
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+			</form>
+
+
+		</div>
+
+
+		<!-- 右侧相关信息展示栏和部分推荐栏 -->
+  <div class="rightbox">
+  
+    
+    <div class="search">
+      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+        <input name="show" value="title" type="hidden">
+        <input name="tempid" value="1" type="hidden">
+        <input name="tbname" value="news" type="hidden">
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form>
+    </div>
+    
+    <div class="paihang">
+      <h2 class="ab_title"><a href="/">点击排行</a></h2>
+      <ul>
+        <li><b><a href="/jstt/css3/2018-03-20/808.html" target="_blank">十条设计原则教你学会如何设计网页布局!...</a></b>
+          <p><i><img src="Page/images/b01.png"></i>网页常见的布局有很多种,单列布局,多列布局.其中单列布局是国外很多网站比较常用的.咱们很多站长以及门户...</p>
+        </li>
+        <li><b><a href="/" target="_blank">教你怎样用欠费手机拨打电话</a></b>
+          <p><i><img src="Page/images/b02.jpg"></i>对于刚毕业的学生来说，想学习建网站，掌握一技之长，最简单的入门...</p>
+        </li>
+        <li><b><a href="/" target="_blank">原来以为，一个人的勇敢是，删掉他的手机号码</a></b>
+          <p><i><img src="Page/images/b03.jpg"></i>先前发表过一篇文章《如果要学习web前端开发，需要学习什么？》</p>
+        </li>
+        <li><b><a href="/" target="_blank">手机的16个惊人小秘密，据说99.999%的人都不知</a></b>
+          <p><i><img src="Page/images/b04.jpg"></i>对于刚毕业的学生来说，.需要学习什么？》</p>
+        </li>
+        <li><b><a href="/" target="_blank">你面对的是生活而不是手机</a></b>
+          <p><i><img src="Page/images/b05.jpg"></i>最简单的入门无非就是学会html和css，先前发表过一篇文章...</p>
+        </li>
+      </ul>
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+<footer>
+  <p>Design by <a href="/">天天爱学习</a> </p>
+</footer>
+
+</body>
+
+</html>

@@ -11,9 +11,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.self_study.bean.FriendInfoBean;
+import com.self_study.bean.ShareExperienceBean;
 import com.self_study.bean.StudyFriendInfoBean;
 import com.self_study.bean.TargetBean;
 import com.self_study.bean.UserInfoBean;
+import com.self_study.service.IShareExperienceService;
 import com.self_study.service.IStudyFriendService;
 import com.self_study.service.ITargetService;
 import com.self_study.service.IUserInfoService;
@@ -35,10 +37,37 @@ public class RoteController {
 	@Autowired
 	private IUserInfoService userInfoService;
 	
+	@Autowired
+	private IShareExperienceService shareExperienceService;
+	
+	
+	@RequestMapping("/Share")
+	public String Share() {
+		return "Share";
+	}
+	
+	
+	
+	@RequestMapping("/MyShare")
+	public String MyShare(HttpSession session , ModelMap model) {
+		
+		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");
+		ArrayList<ShareExperienceBean> shareExperienceList = shareExperienceService.selectByUserId(userInfo);
+		if(shareExperienceList.size() == 0) {
+			//表示没有查询出任何的分享文章
+			model.addAttribute("MyShareNum", 0);
+		}else {
+			model.addAttribute("MyShareNum", shareExperienceList.size());
+			model.addAttribute("MyShare", shareExperienceList);
+		}
+		return "MyShare";
+	}
+	
+	
 	@RequestMapping("/AboutSelf")
 	public String AboutSelf(String userid ,HttpSession session , ModelMap model) {
-		System.out.println("UerId: " + userid);
 		UserInfoBean userInfo = null;
+		//如果前台没有传userid过来，说明访问的是自己的主页，从session中获取个人信息，如果前台传了userid过来，说明访问的是别人的主页，则根据传输过来的useri查询出对应的信息
 		if(userid == null) {
 			//说明是自己访问自己的个人主页
 			model.addAttribute("isSelf", "true");
@@ -50,7 +79,7 @@ public class RoteController {
 			userInfo.setUserid(Integer.valueOf(userid));
 			userInfo = userInfoService.selectAllByUserId(userInfo);
 		}
-		System.out.println("UserInfo : " + userInfo);
+		//查询出对应的学习小伙伴的信息
 		FriendInfoBean friendInfo = studyFriendService.selectByUserId(userInfo);
 		//如果用户未完善学习小伙伴的相关信息，则创建一个身份展示其他信息为空的对象
 		if(friendInfo == null) {
