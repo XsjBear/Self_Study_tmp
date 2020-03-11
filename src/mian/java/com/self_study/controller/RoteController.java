@@ -10,11 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.self_study.bean.ExperienceBean;
 import com.self_study.bean.FriendInfoBean;
 import com.self_study.bean.ShareExperienceBean;
 import com.self_study.bean.StudyFriendInfoBean;
 import com.self_study.bean.TargetBean;
 import com.self_study.bean.UserInfoBean;
+import com.self_study.service.IExperienceService;
 import com.self_study.service.IShareExperienceService;
 import com.self_study.service.IStudyFriendService;
 import com.self_study.service.ITargetService;
@@ -40,9 +42,19 @@ public class RoteController {
 	@Autowired
 	private IShareExperienceService shareExperienceService;
 	
+	@Autowired
+	private IExperienceService experienceService;
 	
+	
+	@RequestMapping("/ReadArticle")
+	public String ReadArticle(ModelMap model) {
+		return "ReadArticle";
+	}
 	@RequestMapping("/Share")
-	public String Share() {
+	public String Share( ModelMap model) {
+		ArrayList<ExperienceBean> experienceList = experienceService.selectAll();
+		model.addAttribute("ExperienceList", experienceList);
+		System.out.println(experienceList);
 		return "Share";
 	}
 	

@@ -23,6 +23,12 @@ public class ShareExperienceServiceImpl implements IShareExperienceService {
 		return experienceMapper.selectByUserId(userInfo);
 	}
 
+	@Override
+	public int addExperience(ShareExperienceBean shareExperience) {
+		// TODO Auto-generated method stub
+		return experienceMapper.addExperience(shareExperience);
+	}
+
 
 	
 

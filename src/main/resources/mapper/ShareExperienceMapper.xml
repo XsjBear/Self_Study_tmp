@@ -9,4 +9,8 @@
    		select * from experience_share where userid = #{userid}
    </select>
    
+   <insert id="addExperience" parameterType="ShareExperienceBean">
+   		insert into experience_share (userid,experienceid,experience_title,annoce_time,experience_content) values(#{userid},#{experience},#{experience_title},#{annoce_time},#{experience_content});
+   </insert>
+   
 </mapper>

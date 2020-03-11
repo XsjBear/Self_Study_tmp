@@ -148,15 +148,14 @@
 						<h3 class="blogtitle">
 							<a href="/" target="_blank" th:text="${MyShare.experience_title}"></a>
 						</h3>
-						<div class="bloginfo">
-							<p th:text="${MyShare.experience_content}"></p>
+						<div class="bloginfo" th:text="${MyShare.experience_content}">
 						</div>
 						<div class="autor">
 							<span class="lm f_l"><a href="/" th:text="${MyShare.experience}" ></a></span><span
 								class="dtime f_l" th:text="${MyShare.annoce_time}"></span><span class="viewnum f_l">浏览（<a
 								href="/">459</a>）
 							</span><span class="pingl f_l">评论（<a href="/">30</a>）
-							</span><span class="f_r"><a href="/" class="more">阅读原文>></a></span>
+							</span><span class="f_r"><a th:href="@{'ReadArticle?shareid='+ ${MyShare.shareid}}" class="more">阅读原文>></a></span>
 						</div>
 					</li>
 					

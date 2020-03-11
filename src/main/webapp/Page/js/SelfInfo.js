@@ -18,27 +18,6 @@ layui.define(['layer', 'form','layedit', 'laydate'], function(exports){
 	  state = this.checked ? 'true' : 'false';
   });
   
-  //赋值方法
-//  $(function() {
-//	window.location.href = "PageLoad";
-//	$.post("PageLoad", {}, function(data) {
-//		layer.msg(data);
-//		if (data.userInfo == null) {
-//			layer.msg("您当前尚未填写相关信息，请您先完善相关信息!!!!")
-//		} else {
-//				form.val('example', {
-//					"username" : "贤心" // "name": "value"
-//					,
-//					"password" : "123456",
-//					"interest" : 1,
-//					"like[write]" : true // 复选框选中状态,
-//					"close" : true // 开关状态,
-//					"sex" : "女",
-//					"desc" : "我爱 layui"
-//				});
-//		}
-//	}, "json")
-//});
   
   //监听提交
   form.on('submit(demo1)', function(data){

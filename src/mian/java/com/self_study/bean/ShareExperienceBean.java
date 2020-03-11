@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class ShareExperienceBean implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String shareid;
 	private String userid;
 	private String experience;	//类型名字

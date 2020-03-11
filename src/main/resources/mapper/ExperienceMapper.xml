@@ -5,7 +5,7 @@
      
 <mapper namespace="com.self_study.mapper.IExperienceMapper">
 
-   <select id="selectAll" resultType="TargetBean">
+   <select id="selectAll" resultType="ExperienceBean">
    		select * from experience;
    </select>
    

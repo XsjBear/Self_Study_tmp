@@ -16,5 +16,13 @@ public interface IShareExperienceService {
 	 */
 	public ArrayList<ShareExperienceBean> selectByUserId(UserInfoBean userInfo);
 	
+
+	/**
+	 * 添加分享经验
+	 * @return
+	 */
+	public int addExperience(ShareExperienceBean shareExperience);
+	
+	
 	
 }

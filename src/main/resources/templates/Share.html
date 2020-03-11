@@ -33,14 +33,6 @@
 		  ,layedit = layui.layedit
 		  ,laydate = layui.laydate;
 		
-		pageload();
-
-		function pageload(){
-			 var isSelf = $("#isSelf").val();
-			 if(isSelf == 'false'){
-				 $(".infoShow").attr("disabled","disabled");
-			 }
-		}
 		
 		//监听导航点击
 		element.on('nav(demo)', function(elem) {
@@ -48,6 +40,7 @@
 			layer.msg(elem.text());
 		});
 
+		//设置点击的导航栏为选中状态
 		$(".layui-nav-item dd").click(function() {
 			$(this).addClass("layui-this");
 		})
@@ -79,31 +72,40 @@
 		CKEDITOR.replace( 'editor1' );
 		//监听提交
 		form.on('submit(demo1)', function(data) {
-			
-			var title = data.value;
-			layer.msg(title,{time:2*1000});
-			layer.msg(data.othis,{time:2*1000});
-			
 			/* var Info = JSON.stringify(data.field);
 			var experienceContent = $.trim(CKEDITOR.instances.editor1.getData());
-			layer.msg(Info + "  : " + experienceContent); */
-			/* $.post("selfInfo/changeInfo", {
+			 */
+			 var Info = JSON.stringify(form.val('example'));
+			 var experienceContent = $.trim(CKEDITOR.instances.editor1.getData());
+			$.post("experience/addExperience", {
 				Info : Info,
-				targetDescription : targetDescription
+				experienceContent : experienceContent
 			}, function(data) {
-			}, "json");  */
+				if(data > 0){
+					//说明添加分享成功
+					layer.msg("分享成功",{time:2*1000});
+					window.location.href = "MyShare";
+				}else{
+					//说明添加分享失败
+					layer.msg("分享失败",{time:2*1000});
+					$(".infoShow").val("");
+					clearCkeditor();
+				}
+				
+			}, "json");
 			return false;
 		}); 
 		
-/* 		 //双击我触发
-		  lay('#test26-1').on('dblclick', function(){
-		    laydate.render({
-		      elem: '#test26'
-		      ,show: true
-		      ,closeStop: '#test26-1'
-		    });
-		  }); */
-		  
+		// 清空所有的ckeditor的富文本编辑器
+		function clearCkeditor(){
+			var id = "";
+			var jsfunc = "";
+			$(".cke_skin_v2").each(function(){
+				id = $(this).attr("id");
+				jsfunc = "CKEDITOR.instances."+id.substring(4)+".setData('')";
+				eval(jsfunc);
+			});
+		}
 
 	});
 </script>
@@ -163,17 +165,13 @@
 		
 		<!-- 个人信息展示主体 -->
 		<div class="leftbox">
-			<form class="layui-form" action="">
+			<form class="layui-form" action="" lay-filter="example">
 			
-			<div class="layui-form-item">
+			<div class="layui-form-item experienceType">
 					<label class="layui-form-label">选择分享类型</label>
 					<div class="layui-input-block">
 						<select name="shareType" lay-filter="aihao">
-<!-- 							<option th:value="${FriendInfo.getTargetcontent()}" th:text="${FriendInfo.getTargetcontent()}" selected=""></option>
- -->							<option  selected=""></option>
-							<!-- <option value="0">写作</option> -->
-							 <option ></option>	
-<!-- 							 <option th:each="target:${targetList}" th:value="${target.targetcontent}" th:text="${target.targetcontent}"></option>	 -->
+ 							 <option th:each="experience:${ExperienceList}" th:value="${experience.experienceid}" th:text="${experience.experiencetype}"></option>	 
 						</select>
 					</div>
 				</div>
@@ -188,15 +186,6 @@
 					</div>
 				</div>
 				
-				<!-- <div class="layui-form-item">
-					<label class="layui-form-label" id="test26-1"></label>
-					<div class="layui-input-inline">
-						<input type="text" class="layui-input" id="test26"
-							placeholder="yyyy-MM-dd">
-					</div>
-				</div> -->
-				
-				
 				<div class="layui-form-item">
 					<label class="layui-form-label">正文</label>
 					<div class="layui-input-block">
@@ -208,7 +197,7 @@
 				
 				<div class="layui-form-item" >
 					<div class="layui-input-block">
-						<button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即修改</button>
+						<button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即分享</button>
 						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 					</div>
 				</div>
