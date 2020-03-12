@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.self_study.bean.ExperienceBean;
 import com.self_study.bean.FriendInfoBean;
+import com.self_study.bean.ShareExperienceArticleBean;
 import com.self_study.bean.ShareExperienceBean;
 import com.self_study.bean.StudyFriendInfoBean;
 import com.self_study.bean.TargetBean;
@@ -46,8 +47,24 @@ public class RoteController {
 	private IExperienceService experienceService;
 	
 	
+	@RequestMapping("/ExcellenceShare")
+	public String ExcellenceShare(HttpSession session ,ModelMap model) {
+		//查询出当前登陆用户的相关信息
+		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");
+		//获取除去当前用户发表的分享之外的优秀分享
+		ArrayList<ShareExperienceBean> excellenceShareList = shareExperienceService.selectExceptSelf(userInfo);
+		model.addAttribute("OutherNum", excellenceShareList.size());
+		model.addAttribute("ExcellenceShare", excellenceShareList);
+		return "ExcellenceShare";
+	}
+	
+	
+	
 	@RequestMapping("/ReadArticle")
-	public String ReadArticle(ModelMap model) {
+	public String ReadArticle(String shareid , ModelMap model) {
+		ShareExperienceArticleBean shareExperienceArticle = shareExperienceService.selectByShareId(shareid);
+		System.out.println(shareExperienceArticle);
+		model.addAttribute("ShareExperienceArticle", shareExperienceArticle);
 		return "ReadArticle";
 	}
 	@RequestMapping("/Share")
@@ -123,17 +140,8 @@ public class RoteController {
 	 */
 	@RequestMapping("/PageLoad")
 	public String loadRequest(HttpSession session , Model model) {
-//		UserInfoBean userInfo = (UserInfoBean) session.getAttribute("UserInfo");
-//		FriendBean friendInfo = studyFriendService.selectByUserId(userInfo);
 		ArrayList<TargetBean> targetList = targetService.selectAll();
-//		ArrayList<FriendBean> friendList = new ArrayList<>();
 		model.addAttribute("targetList", targetList);
-//		if(friendInfo == null) {
-//			friendList.add(targetList.get(0));
-//		}else {
-//			friendList.add(friendInfo);
-//		}
-//		model.addAttribute("friendInfo" , friendList);
 		return "FriendInfo";
 	}
 	

@@ -9,6 +9,14 @@
    		select * from experience_share where userid = #{userid}
    </select>
    
+     <select id="selectExceptSelf" parameterType="UserInfoBean" resultType="ShareExperienceBean">
+   		select * from experience_share where userid <![CDATA[ <> ]]> #{userid} limit 6
+   </select>
+   
+   <select id="selectByShareId" parameterType="String" resultType="ShareExperienceArticleBean">
+   		select shareid,userinfo.nickname,experience.experiencetype,experience_title,annoce_time,experience_content from experience_share,experience,userinfo where userinfo.userid = experience_share.userid and experience.experienceid = experience_share.experienceid and experience_share.shareid = #{shareid}
+   </select>
+   
    <insert id="addExperience" parameterType="ShareExperienceBean">
    		insert into experience_share (userid,experienceid,experience_title,annoce_time,experience_content) values(#{userid},#{experience},#{experience_title},#{annoce_time},#{experience_content});
    </insert>
