@@ -20,7 +20,7 @@
 <script src="js/modernizr.js" th:inline="none"></script>
 <![endif]-->
 
-<script type="text/javascript">
+<script type="text/javascript"  th:inline="javascript">
 
 /* 引入element模块，导航栏二级菜单需要 */
 layui.use(['element' , 'jquery' , 'layer'], function(){
@@ -37,6 +37,8 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 	  $(".layui-nav-item dd").click(function(){
 		  $(this).addClass("layui-this");
 	  });
+	  
+	  
 	  
 	  /* 用户能跳转到该界面说明用户的信息已经经过验证，所以再点击跳转到searchFriend和MyFriend這两个界面则无需验证 */
 	  /*  $(".StudyFriend_Menu").click(function(){
@@ -60,11 +62,23 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 			 }
 		   	 return false;
 		  }); */
+		  
+		  jump();
+		  function jump(){
+			 var  isFault = $("#isFault").val();
+			 if(isFault != ""){
+				 layer.msg("添加好友失败!!!")
+			 }
+		  }
+		  
+		  
 	});
 </script>
 
 </head>
 <body>
+
+	<input type="hidden" th:value="${isFault}" id="isFault"/>
 
 	<ul class="layui-nav">
 		<li class="layui-nav-item"><a href="HomePage">首页</a></li>
@@ -121,14 +135,35 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 				</h2>
 
 				<ul>
+				
+					<li th:if="${friendNum} == 0">
+							<span>抱歉,没有推荐的小伙伴给你哦!!!</span> 
+							<b>空空如也!!!</b>
+							<span>快去叫你的朋友加入学习小伙伴的大家庭来吧，让我们一起变强吧^8^</span> 
+					</li>
 
-					<li th:each="friendInfo:${AllFriendInfo}"><span th:text="${friendInfo.nickname}"></span> <b th:text="${friendInfo.targetcontent}"></b><span th:text="${friendInfo.target_description}"></span>
-					<a th:href="@{'AboutSelf?userid='+ ${friendInfo.userid}}"  class="readmore">查看他的个人主页</a><a class="readmore">添加他/她为好友</a></li>
+					<li th:if="${friendNum} != 0" th:each="friendInfo:${AllFriendInfo}"><span
+						th:text="${friendInfo.nickname}"></span> <b
+						th:text="${friendInfo.targetcontent}"></b><span
+						th:text="${friendInfo.target_description}"></span> <a
+						th:href="@{'AboutSelf?userid='+ ${friendInfo.userid}}"
+						class="readmore">查看他的个人主页</a><a class="readmore"
+						th:href="@{'AddFreind?userid='+ ${friendInfo.userid}}">添加他/她为好友</a></li>
 
 				</ul>
 
 				<!-- 分页 -->
-				<div class="pagelist">
+				
+				<div class="pagelist"  th:if="${friendNum} == 0">
+					<a title="Total record">&nbsp;<b>1</b>
+					</a>&nbsp;&nbsp;<a href="javascript:void(0);">首页</a>&nbsp;<a
+						href="javascript:void(0);">上一页</a>&nbsp;<a href="javascript:void(0);">1</a><a
+						href="javascript:void(0);">下一页</a>&nbsp;<a
+						href="javascript:void(0);">尾页</a>
+				</div>
+				
+				
+				<div class="pagelist" th:if="${friendNum} != 0">
 					<a title="Total record">&nbsp;<b>142</b>
 					</a>&nbsp;&nbsp;<a href="/jstt/index.html">首页</a>&nbsp;<a
 						href="/jstt/index.html">上一页</a>&nbsp;<a href="/jstt/index.html">1</a>&nbsp;<b>2</b>&nbsp;<a

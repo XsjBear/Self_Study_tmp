@@ -40,11 +40,6 @@ layui.use(['element' , 'jquery', 'layer'], function(){
 	  
 	  $(".StudyFriend_Menu").click(function(){
 		  var state = null;
-		  layer.open({
-			  title: '信息展示'
-			  ,content: '发送了请求，此时State为：' + state
-			  ,time:10*1000,
-			}); 
 			 $.post("SF/searchSelf",{op:1},function(data){
 				 if(data == 1){
 					//直接跳转至相关界面

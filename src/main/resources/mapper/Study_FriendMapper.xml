@@ -17,10 +17,24 @@
 		update friend set targetid= #{targetid},current_state= #{current_state},target_description= #{target_description} where userid = #{userid} ;
 	</update>
 	
-	<select id="selectAll"  resultType="StudyFriendInfoBean" parameterType="UserInfoBean">
+	<!-- <select id="selectAll"  resultType="StudyFriendInfoBean" parameterType="UserInfoBean">
 		select id,friend.userid,nickname,targetcontent,current_state,target_description from friend,target,userinfo where friend.targetid = target.targetid and target.state =1 and friend.userid = userinfo.userid and friend.userid <![CDATA[ <> ]]> #{userid};
+	</select>  -->
+
+	<select id="selectAll" resultType="StudyFriendInfoBean"
+		parameterType="UserInfoBean">
+		select id,b.userid,nickname,targetcontent,current_state,target_description
+		from
+		(
+			select * from (select * from friend where userid not in (select frienduserid
+			from friendship)) a where a.userid not in (select selfuserid from
+			friendship)
+		) b,userinfo,target 
+		<where>
+			b.userid = userinfo.userid and
+			target.targetid = b.targetid
+		</where>
 	</select> 
-	
 	
    
 </mapper>

@@ -1,6 +1,8 @@
 package com.self_study.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.self_study.bean.ExperienceBean;
 import com.self_study.bean.FriendInfoBean;
+import com.self_study.bean.FriendShipBean;
 import com.self_study.bean.ShareExperienceArticleBean;
 import com.self_study.bean.ShareExperienceBean;
 import com.self_study.bean.StudyFriendInfoBean;
 import com.self_study.bean.TargetBean;
 import com.self_study.bean.UserInfoBean;
 import com.self_study.service.IExperienceService;
+import com.self_study.service.IFriendShipService;
 import com.self_study.service.IShareExperienceService;
 import com.self_study.service.IStudyFriendService;
 import com.self_study.service.ITargetService;
@@ -46,6 +50,41 @@ public class RoteController {
 	@Autowired
 	private IExperienceService experienceService;
 	
+	@Autowired
+	private IFriendShipService friendShipService;
+	
+	
+	
+	@RequestMapping("/AddFreind")
+	public String AddFreind(HttpSession session ,ModelMap model , String userid) {
+		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");
+		FriendShipBean friendShip = new FriendShipBean();
+		friendShip.setSelfuserid(String.valueOf(userInfo.getUserid()));
+		friendShip.setFrienduserid(userid);
+		friendShip.setBuildrelationtime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		friendShip.setRelationshipstate("1");
+		int result = friendShipService.addOne(friendShip);
+		if(result > 0) {
+			//说明添加成功,调用MyFriend方法，跳转到MyFriend页面
+			MyFriend(session , model);
+		}else {
+			//说明添加失败,增加一个变量值,跳转回原页面
+			model.addAttribute("isFault", 1);
+		}
+		return "SearchFriend";
+	}
+	
+	
+	
+	@RequestMapping("/MyFriend")
+	public String MyFriend(HttpSession session ,ModelMap model) {
+		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");
+		FriendShipBean friendShip = new FriendShipBean();
+		
+		
+		System.out.println("跳转至我的好友界面");
+		return "MyFriend";
+	}
 	
 	@RequestMapping("/ExcellenceShare")
 	public String ExcellenceShare(HttpSession session ,ModelMap model) {
@@ -67,6 +106,8 @@ public class RoteController {
 		model.addAttribute("ShareExperienceArticle", shareExperienceArticle);
 		return "ReadArticle";
 	}
+	
+	
 	@RequestMapping("/Share")
 	public String Share( ModelMap model) {
 		ArrayList<ExperienceBean> experienceList = experienceService.selectAll();
@@ -121,17 +162,14 @@ public class RoteController {
 		return "AboutSelf";
 	}
 	
+	
 	@RequestMapping("/SearchFriend")
 	public String SearchFriend(HttpSession session , ModelMap model) {
 		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");
 		ArrayList<StudyFriendInfoBean> list = studyFriendService.selectAll(userInfo);
+		model.addAttribute("friendNum", list.size());//将小伙伴的数量添加进去，如果为0则说明所有小伙伴都是你的好友了
 		model.addAttribute("AllFriendInfo", list);
 		return "SearchFriend";
-	}
-	
-	@RequestMapping("/MyFriend")
-	public String MyFriend() {
-		return "MyFriend";
 	}
 	
 	
