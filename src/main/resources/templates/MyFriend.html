@@ -60,15 +60,24 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 			 }
 		   	 return false;
 		  }); */
+		  
+	  jump();
+	  function jump(){
+		 var  isSuccess = $("#isSuccess").val();
+		 if(isSuccess != ""){
+			 layer.msg("添加好友成功!!!",{time:3*1000});
+		 }
+	  }
 	});
 </script>
 
 </head>
 <body>
 
+	<input type="hidden" th:value="${isSuccess}" id="isSuccess"/>
 	<ul class="layui-nav">
 		<li class="layui-nav-item"><a href="HomePage">首页</a></li>
-		<li class="layui-nav-item"><a href="StudyFriend">学习小伙伴</a>
+		<li class="layui-nav-item"><a href="MyFriend">学习小伙伴</a>
 			<dl class="layui-nav-child">
 				<dd class="layui-this">
 					<a class="StudyFriend_Menu" href="MyFriend">我的小伙伴</a>
@@ -77,7 +86,7 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 					<a class="StudyFriend_Menu" href="SearchFriend">寻找小伙伴</a>
 				</dd>
 			</dl></li>
-		<li class="layui-nav-item"><a href="">经验座谈会</a>
+		<li class="layui-nav-item"><a href="MyShare">经验座谈会</a>
 			<dl class="layui-nav-child">
 				<dd>
 					<a href="MyShare">我的分享</a>
@@ -117,36 +126,34 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 			<div class="tuijian">
 				<h2 class="hometitle">
 					<span><a href="/">有我作伴</a><a href="/">快乐学习</a><a href="/">共同进步</a><a
-						href="/">学无止境</a></span>小伙伴推荐
+						href="/">学无止境</a></span>我的小伙伴
 				</h2>
 
 				<ul>
+					<li th:if="${selfFriendNum} == 0"><span>抱歉,你还没有和其他小伙伴成为朋友哦!!!</span> <b>空空如也!!!</b>
+						<span>快去添加你的学习小伙伴吧^8^</span><a
+						th:href="@{'SearchFriend'}"
+						class="readmore">快点击我去添加朋友吧^&^</a></li>
 
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
-					<li><span>Xsj</span> <b>如何成为一个编程高手</b><span>想要成为一个编程高手就必须要勤动手，多思考，多做少看...</span><a
-						href="/" class="readmore">查看他的个人主页</a></li>
+					<li th:if="${selfFriendNum} != 0" th:each="selfFriendList:${selfFriendList}"><span
+						th:text="${selfFriendList.nickname}"></span> <b
+						th:text="${selfFriendList.targetcontent}"></b><span
+						th:text="${selfFriendList.target_description}"></span> <a
+						th:href="@{'AboutSelf?userid='+ ${selfFriendList.userid}}"
+						class="readmore">查看他的个人主页获取他/她的联系方式吧</a></li>
 
-					<!-- <li>
-          <div class="tpic"><img src="Page/images/b02.jpg"></div>
-          <b>作为一个设计师,如果遭到质疑你是否能恪守自己的原则</b><span>就拿我自己来说吧，有时候会很矛盾，设计好的作品，不把它分享出来，会觉得待在自己电脑里面实在是没有意义...</span><a href="/" class="readmore">阅读原文</a></li>
-		 -->
 				</ul>
 
-				<!-- 分页 -->
-				<div class="pagelist">
+				<div class="pagelist"  th:if="${selfFriendNum} == 0">
+					<a title="Total record">&nbsp;<b>1</b>
+					</a>&nbsp;&nbsp;<a href="javascript:void(0);">首页</a>&nbsp;<a
+						href="javascript:void(0);">上一页</a>&nbsp;<a href="javascript:void(0);">1</a><a
+						href="javascript:void(0);">下一页</a>&nbsp;<a
+						href="javascript:void(0);">尾页</a>
+				</div>
+				
+				
+				<div class="pagelist" th:if="${selfFriendNum} != 0">
 					<a title="Total record">&nbsp;<b>142</b>
 					</a>&nbsp;&nbsp;<a href="/jstt/index.html">首页</a>&nbsp;<a
 						href="/jstt/index.html">上一页</a>&nbsp;<a href="/jstt/index.html">1</a>&nbsp;<b>2</b>&nbsp;<a

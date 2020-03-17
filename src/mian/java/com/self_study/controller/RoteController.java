@@ -1,9 +1,13 @@
 package com.self_study.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +60,7 @@ public class RoteController {
 	
 	
 	@RequestMapping("/AddFreind")
-	public String AddFreind(HttpSession session ,ModelMap model , String userid) {
+	public String AddFreind(HttpSession session ,ModelMap model , String userid , HttpServletRequest request , HttpServletResponse response) {
 		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");
 		FriendShipBean friendShip = new FriendShipBean();
 		friendShip.setSelfuserid(String.valueOf(userInfo.getUserid()));
@@ -64,9 +68,20 @@ public class RoteController {
 		friendShip.setBuildrelationtime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		friendShip.setRelationshipstate("1");
 		int result = friendShipService.addOne(friendShip);
+		System.out.println("添加小伙伴的操作数：" + result);
 		if(result > 0) {
 			//说明添加成功,调用MyFriend方法，跳转到MyFriend页面
-			MyFriend(session , model);
+//			MyFriend(session , model);
+			model.addAttribute("isSuccess", 1);
+			try {
+				request.getRequestDispatcher("MyFriend").forward(request,response);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}else {
 			//说明添加失败,增加一个变量值,跳转回原页面
 			model.addAttribute("isFault", 1);
@@ -79,10 +94,23 @@ public class RoteController {
 	@RequestMapping("/MyFriend")
 	public String MyFriend(HttpSession session ,ModelMap model) {
 		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");
-		FriendShipBean friendShip = new FriendShipBean();
-		
-		
-		System.out.println("跳转至我的好友界面");
+		//查询出当前用户的所有的好友关系
+		ArrayList<FriendShipBean> friendlist = studyFriendService.selectAll(userInfo);
+		//用以存放好友的userid
+		ArrayList<Integer> frienduserid = new ArrayList<>();
+		//便利查询出来的好友关系，然后甄别出当前登陆用户的好友id
+		for (FriendShipBean friendInfo : friendlist) {
+			if((String.valueOf(userInfo.getUserid())).equals(friendInfo.getSelfuserid())) {
+				//如果selfuserid为当前登陆的用户的id的话，则添加frienduserid
+				frienduserid.add(Integer.valueOf(friendInfo.getFrienduserid()));
+			}else {
+				//如果selfuserid不等于当前登陆的用户的id的话，则添加selfuserid
+				frienduserid.add(Integer.valueOf(friendInfo.getSelfuserid()));
+			}
+		}
+		ArrayList<StudyFriendInfoBean> list  = studyFriendService.selectByList(frienduserid);
+		model.addAttribute("selfFriendNum", list.size());//将小伙伴的数量添加进去，如果为0则说明所有小伙伴都是你的好友了
+		model.addAttribute("selfFriendList", list);
 		return "MyFriend";
 	}
 	
@@ -166,7 +194,23 @@ public class RoteController {
 	@RequestMapping("/SearchFriend")
 	public String SearchFriend(HttpSession session , ModelMap model) {
 		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");
-		ArrayList<StudyFriendInfoBean> list = studyFriendService.selectAll(userInfo);
+		//查询出当前用户的所有的好友关系
+		ArrayList<FriendShipBean> friendlist = studyFriendService.selectAll(userInfo);
+		ArrayList<Integer> frienduserid = new ArrayList<>();
+		//将自己的id添加进去防止后面sql查询时将自己当作好友查询出来
+		frienduserid.add(userInfo.getUserid());
+		//便利查询出来的好友关系，然后甄别出当前登陆用户的好友id
+		for (FriendShipBean friendInfo : friendlist) {
+			if((String.valueOf(userInfo.getUserid())).equals(friendInfo.getSelfuserid())) {
+				//如果selfuserid为当前登陆的用户的id的话，则添加frienduserid
+				frienduserid.add(Integer.valueOf(friendInfo.getFrienduserid()));
+			}else {
+				//如果selfuserid不等于当前登陆的用户的id的话，则添加selfuserid
+				frienduserid.add(Integer.valueOf(friendInfo.getSelfuserid()));
+			}
+		}
+		//查找出不是好友的用户信息
+		ArrayList<StudyFriendInfoBean> list  = studyFriendService.selectNotFriendByList(frienduserid);
 		model.addAttribute("friendNum", list.size());//将小伙伴的数量添加进去，如果为0则说明所有小伙伴都是你的好友了
 		model.addAttribute("AllFriendInfo", list);
 		return "SearchFriend";

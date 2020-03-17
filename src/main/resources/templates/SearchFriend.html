@@ -82,7 +82,7 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 
 	<ul class="layui-nav">
 		<li class="layui-nav-item"><a href="HomePage">首页</a></li>
-		<li class="layui-nav-item"><a href="StudyFriend">学习小伙伴</a>
+		<li class="layui-nav-item"><a href="MyFriend">学习小伙伴</a>
 			<dl class="layui-nav-child">
 				<dd>
 					<a class="StudyFriend_Menu" href="MyFriend">我的小伙伴</a>
@@ -91,7 +91,7 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 					<a class="StudyFriend_Menu layui-this" href="SearchFriend">寻找小伙伴</a>
 				</dd>
 			</dl></li>
-		<li class="layui-nav-item"><a href="">经验座谈会</a>
+		<li class="layui-nav-item"><a href="MyShare">经验座谈会</a>
 			<dl class="layui-nav-child">
 				<dd>
 					<a href="MyShare">我的分享</a>
@@ -147,7 +147,7 @@ layui.use(['element' , 'jquery' , 'layer'], function(){
 						th:text="${friendInfo.targetcontent}"></b><span
 						th:text="${friendInfo.target_description}"></span> <a
 						th:href="@{'AboutSelf?userid='+ ${friendInfo.userid}}"
-						class="readmore">查看他的个人主页</a><a class="readmore"
+						class="readmore">查看他/她的个人主页</a><a class="readmore"
 						th:href="@{'AddFreind?userid='+ ${friendInfo.userid}}">添加他/她为好友</a></li>
 
 				</ul>
