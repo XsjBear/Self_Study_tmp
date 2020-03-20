@@ -58,6 +58,42 @@ public class RoteController {
 	private IFriendShipService friendShipService;
 	
 	
+	@RequestMapping("/HomePage")
+	public String HomePage(HttpSession session ,ModelMap model) {
+		//好友推荐
+		UserInfoBean userInfo = (UserInfoBean)session.getAttribute("UserInfo");
+		//查询出当前用户的所有的好友关系
+		ArrayList<FriendShipBean> friendlist = studyFriendService.selectAll(userInfo);
+		ArrayList<Integer> frienduserid = new ArrayList<>();
+		//将自己的id添加进去防止后面sql查询时将自己当作好友查询出来
+		frienduserid.add(userInfo.getUserid());
+		//便利查询出来的好友关系，然后甄别出当前登陆用户的好友id
+		for (FriendShipBean friendInfo : friendlist) {
+			//首页推荐好友只推荐六个，如果超出六个其余的则不添加
+			if(frienduserid.size() > 6) {
+				break;
+			}else {
+				if((String.valueOf(userInfo.getUserid())).equals(friendInfo.getSelfuserid())) {
+					//如果selfuserid为当前登陆的用户的id的话，则添加frienduserid
+					frienduserid.add(Integer.valueOf(friendInfo.getFrienduserid()));
+				}else {
+					//如果selfuserid不等于当前登陆的用户的id的话，则添加selfuserid
+					frienduserid.add(Integer.valueOf(friendInfo.getSelfuserid()));
+				}
+			}
+		}
+		//查找出不是好友的用户信息
+		ArrayList<StudyFriendInfoBean> list  = studyFriendService.selectNotFriendByList(frienduserid);
+		model.addAttribute("friendNum", list.size());//将小伙伴的数量添加进去，如果为0则说明所有小伙伴都是你的好友了
+		model.addAttribute("AllFriendInfo", list);
+		
+		//获取除去当前用户发表的分享之外的优秀分享
+		ArrayList<ShareExperienceBean> excellenceShareList = shareExperienceService.selectExceptSelf(userInfo);
+		model.addAttribute("OutherNum", excellenceShareList.size());
+		model.addAttribute("ExcellenceShare", excellenceShareList);
+		return "HomePage";
+	}
+	
 	
 	@RequestMapping("/AddFreind")
 	public String AddFreind(HttpSession session ,ModelMap model , String userid , HttpServletRequest request , HttpServletResponse response) {
@@ -68,7 +104,6 @@ public class RoteController {
 		friendShip.setBuildrelationtime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		friendShip.setRelationshipstate("1");
 		int result = friendShipService.addOne(friendShip);
-		System.out.println("添加小伙伴的操作数：" + result);
 		if(result > 0) {
 			//说明添加成功,调用MyFriend方法，跳转到MyFriend页面
 //			MyFriend(session , model);
@@ -130,7 +165,6 @@ public class RoteController {
 	@RequestMapping("/ReadArticle")
 	public String ReadArticle(String shareid , ModelMap model) {
 		ShareExperienceArticleBean shareExperienceArticle = shareExperienceService.selectByShareId(shareid);
-		System.out.println(shareExperienceArticle);
 		model.addAttribute("ShareExperienceArticle", shareExperienceArticle);
 		return "ReadArticle";
 	}
@@ -140,7 +174,6 @@ public class RoteController {
 	public String Share( ModelMap model) {
 		ArrayList<ExperienceBean> experienceList = experienceService.selectAll();
 		model.addAttribute("ExperienceList", experienceList);
-		System.out.println(experienceList);
 		return "Share";
 	}
 	
@@ -225,12 +258,6 @@ public class RoteController {
 		ArrayList<TargetBean> targetList = targetService.selectAll();
 		model.addAttribute("targetList", targetList);
 		return "FriendInfo";
-	}
-	
-	
-	@RequestMapping("/HomePage")
-	public String HomePage() {
-		return "HomePage";
 	}
 	
 	
